@@ -1,6 +1,6 @@
-const request = require("supertest");
-const app = require("../../src/app");
-const { AppDataSource } = require("../../src/config/database");
+const request = require('supertest');
+const app = require('../../src/app');
+const { AppDataSource } = require('../../src/config/database');
 
 let token;
 let accountId;
@@ -26,42 +26,42 @@ afterAll(async () => {
   }
 });
 
-describe("Goals E2E", () => {
+describe('Goals E2E', () => {
   let goalId;
 
-  describe("POST /v1/goals", () => {
-    it("deve criar meta (201)", async () => {
+  describe('POST /v1/goals', () => {
+    it('deve criar meta (201)', async () => {
       // TODO: implemente o teste
       // goalId = res.body.id;
     });
   });
 
-  describe("GET /v1/goals", () => {
-    it("deve listar metas com campos calculados (200)", async () => {
+  describe('GET /v1/goals', () => {
+    it('deve listar metas com campos calculados (200)', async () => {
       // TODO: implemente o teste
     });
   });
 
-  describe("GET /v1/goals/:id", () => {
-    it("deve retornar meta por ID (200)", async () => {
+  describe('GET /v1/goals/:id', () => {
+    it('deve retornar meta por ID (200)', async () => {
       // TODO: implemente o teste
     });
   });
 
-  describe("POST /v1/goals/:id/deposit", () => {
-    it("deve depositar na meta (200)", async () => {
+  describe('POST /v1/goals/:id/deposit', () => {
+    it('deve depositar na meta (200)', async () => {
       // TODO: implemente o teste
     });
   });
 
-  describe("PATCH /v1/goals/:id", () => {
-    it("deve atualizar meta (200)", async () => {
+  describe('PATCH /v1/goals/:id', () => {
+    it('deve atualizar meta (200)', async () => {
       // TODO: implemente o teste
     });
   });
 
-  describe("DELETE /v1/goals/:id", () => {
-    it("deve remover meta (204)", async () => {
+  describe('DELETE /v1/goals/:id', () => {
+    it('deve remover meta (204)', async () => {
       // TODO: implemente o teste
     });
   });

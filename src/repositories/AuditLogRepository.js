@@ -1,9 +1,9 @@
-const { AppDataSource } = require("../config/database");
+const { AppDataSource } = require('../config/database');
 
 /**
  * Repositório de logs de auditoria.
  */
-const AuditLogRepository = AppDataSource.getRepository("AuditLog").extend({
+const AuditLogRepository = AppDataSource.getRepository('AuditLog').extend({
   /**
    * Cria um registro de auditoria.
    * @param {string} userId

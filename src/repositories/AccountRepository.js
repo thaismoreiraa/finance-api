@@ -1,11 +1,11 @@
-const { AppDataSource } = require("../config/database");
+const { AppDataSource } = require('../config/database');
 
 /**
  * Repositório de contas.
  * Responsável por todas as queries na tabela `accounts`.
  * Não contém regras de negócio.
  */
-const AccountRepository = AppDataSource.getRepository("Account").extend({
+const AccountRepository = AppDataSource.getRepository('Account').extend({
   /**
    * Busca todas as contas ativas de um usuário.
    * @param {string} userId
@@ -14,7 +14,7 @@ const AccountRepository = AppDataSource.getRepository("Account").extend({
   findByUser(userId) {
     return this.find({
       where: { user_id: userId, is_active: true, deleted_at: null },
-      order: { created_at: "ASC" },
+      order: { created_at: 'ASC' },
     });
   },
 
@@ -38,7 +38,7 @@ const AccountRepository = AppDataSource.getRepository("Account").extend({
     await this.createQueryBuilder()
       .update()
       .set({ balance: () => `balance + ${Number(delta)}` })
-      .where("id = :id", { id: accountId })
+      .where('id = :id', { id: accountId })
       .execute();
   },
 });

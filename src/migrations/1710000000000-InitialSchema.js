@@ -1,7 +1,7 @@
-const { MigrationInterface, QueryRunner } = require("typeorm");
+const { MigrationInterface, QueryRunner } = require('typeorm');
 
 module.exports = class InitialSchema1710000000000 {
-  name = "InitialSchema1710000000000";
+  name = 'InitialSchema1710000000000';
 
   async up(queryRunner) {
     await queryRunner.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp"`);
@@ -134,22 +134,14 @@ module.exports = class InitialSchema1710000000000 {
 
     // Índices
     await queryRunner.query(
-      `CREATE INDEX idx_transactions_user_date ON transactions(user_id, date)`,
+      `CREATE INDEX idx_transactions_user_date ON transactions(user_id, date)`
     );
+    await queryRunner.query(`CREATE INDEX idx_transactions_account   ON transactions(account_id)`);
+    await queryRunner.query(`CREATE INDEX idx_transactions_category  ON transactions(category_id)`);
+    await queryRunner.query(`CREATE INDEX idx_accounts_user          ON accounts(user_id)`);
+    await queryRunner.query(`CREATE INDEX idx_categories_user        ON categories(user_id)`);
     await queryRunner.query(
-      `CREATE INDEX idx_transactions_account   ON transactions(account_id)`,
-    );
-    await queryRunner.query(
-      `CREATE INDEX idx_transactions_category  ON transactions(category_id)`,
-    );
-    await queryRunner.query(
-      `CREATE INDEX idx_accounts_user          ON accounts(user_id)`,
-    );
-    await queryRunner.query(
-      `CREATE INDEX idx_categories_user        ON categories(user_id)`,
-    );
-    await queryRunner.query(
-      `CREATE INDEX idx_budgets_user_period    ON budgets(user_id, year, month)`,
+      `CREATE INDEX idx_budgets_user_period    ON budgets(user_id, year, month)`
     );
   }
 

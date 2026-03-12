@@ -1,4 +1,4 @@
-const { EntitySchema } = require("typeorm");
+const { EntitySchema } = require('typeorm');
 
 /**
  * @typedef {Object} Account
@@ -16,27 +16,27 @@ const { EntitySchema } = require("typeorm");
  * @property {Date|null} deleted_at - Soft delete
  */
 module.exports = new EntitySchema({
-  name: "Account",
-  tableName: "accounts",
+  name: 'Account',
+  tableName: 'accounts',
   columns: {
-    id: { type: "uuid", primary: true, generated: "uuid" },
-    user_id: { type: "uuid" },
-    name: { type: "varchar", length: 100 },
-    type: { type: "varchar", length: 20 },
-    balance: { type: "decimal", precision: 15, scale: 2, default: 0 },
-    currency: { type: "char", length: 3, default: "BRL" },
-    color: { type: "varchar", length: 7, nullable: true },
-    icon: { type: "varchar", length: 50, nullable: true },
-    allow_negative: { type: "boolean", default: false },
-    is_active: { type: "boolean", default: true },
-    created_at: { type: "timestamp", createDate: true },
-    deleted_at: { type: "timestamp", nullable: true },
+    id: { type: 'uuid', primary: true, generated: 'uuid' },
+    user_id: { type: 'uuid' },
+    name: { type: 'varchar', length: 100 },
+    type: { type: 'varchar', length: 20 },
+    balance: { type: 'decimal', precision: 15, scale: 2, default: 0 },
+    currency: { type: 'char', length: 3, default: 'BRL' },
+    color: { type: 'varchar', length: 7, nullable: true },
+    icon: { type: 'varchar', length: 50, nullable: true },
+    allow_negative: { type: 'boolean', default: false },
+    is_active: { type: 'boolean', default: true },
+    created_at: { type: 'timestamp', createDate: true },
+    deleted_at: { type: 'timestamp', nullable: true },
   },
   relations: {
     user: {
-      type: "many-to-one",
-      target: "User",
-      joinColumn: { name: "user_id" },
+      type: 'many-to-one',
+      target: 'User',
+      joinColumn: { name: 'user_id' },
     },
   },
 });

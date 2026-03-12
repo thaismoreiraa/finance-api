@@ -1,4 +1,4 @@
-const { EntitySchema } = require("typeorm");
+const { EntitySchema } = require('typeorm');
 
 /**
  * @typedef {Object} AuditLog
@@ -12,23 +12,23 @@ const { EntitySchema } = require("typeorm");
  * @property {Date} created_at
  */
 module.exports = new EntitySchema({
-  name: "AuditLog",
-  tableName: "audit_logs",
+  name: 'AuditLog',
+  tableName: 'audit_logs',
   columns: {
-    id: { type: "uuid", primary: true, generated: "uuid" },
-    user_id: { type: "uuid" },
-    table_name: { type: "varchar", length: 50 },
-    record_id: { type: "uuid" },
-    action: { type: "varchar", length: 10 },
-    old_data: { type: "jsonb", nullable: true },
-    new_data: { type: "jsonb", nullable: true },
-    created_at: { type: "timestamp", createDate: true },
+    id: { type: 'uuid', primary: true, generated: 'uuid' },
+    user_id: { type: 'uuid' },
+    table_name: { type: 'varchar', length: 50 },
+    record_id: { type: 'uuid' },
+    action: { type: 'varchar', length: 10 },
+    old_data: { type: 'jsonb', nullable: true },
+    new_data: { type: 'jsonb', nullable: true },
+    created_at: { type: 'timestamp', createDate: true },
   },
   relations: {
     user: {
-      type: "many-to-one",
-      target: "User",
-      joinColumn: { name: "user_id" },
+      type: 'many-to-one',
+      target: 'User',
+      joinColumn: { name: 'user_id' },
     },
   },
 });

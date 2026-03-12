@@ -25,6 +25,7 @@
 API RESTful para um sistema de controle de finanças pessoais. Permite ao usuário gerenciar contas bancárias, transações, categorias, orçamentos, metas de economia e transações recorrentes.
 
 **Objetivos do projeto:**
+
 - Ser uma API funcional e bem estruturada
 - Servir de base para a prática de testes (unitário, integração e e2e)
 - Ter código simples o suficiente para iniciantes entenderem
@@ -33,20 +34,20 @@ API RESTful para um sistema de controle de finanças pessoais. Permite ao usuár
 
 ## Stack Tecnológica
 
-| Camada | Tecnologia |
-|---|---|
-| Runtime | Node.js (JavaScript) |
-| Framework | Express.js |
-| ORM | TypeORM |
-| Banco de dados | PostgreSQL |
-| Autenticação | JWT (jsonwebtoken) |
-| Validação | Joi ou Zod (à sua escolha) |
-| Documentação inline | JSDoc |
-| Testes unitários | Jest |
-| Testes de integração | Jest + Supertest |
-| Testes e2e | Jest + Supertest |
-| Variáveis de ambiente | dotenv |
-| Containerização | Docker + Docker Compose |
+| Camada                | Tecnologia                 |
+| --------------------- | -------------------------- |
+| Runtime               | Node.js (JavaScript)       |
+| Framework             | Express.js                 |
+| ORM                   | TypeORM                    |
+| Banco de dados        | PostgreSQL                 |
+| Autenticação          | JWT (jsonwebtoken)         |
+| Validação             | Joi ou Zod (à sua escolha) |
+| Documentação inline   | JSDoc                      |
+| Testes unitários      | Jest                       |
+| Testes de integração  | Jest + Supertest           |
+| Testes e2e            | Jest + Supertest           |
+| Variáveis de ambiente | dotenv                     |
+| Containerização       | Docker + Docker Compose    |
 
 ---
 
@@ -290,81 +291,90 @@ Você pode visualizá-la colando o conteúdo em [editor.swagger.io](https://edit
 ### Resumo dos endpoints
 
 #### Auth
-| Método | Rota | Descrição | Auth |
-|---|---|---|---|
-| POST | `/auth/register` | Criar conta | ❌ |
-| POST | `/auth/login` | Autenticar | ❌ |
-| POST | `/auth/refresh` | Renovar token | ❌ |
-| POST | `/auth/logout` | Encerrar sessão | ✅ |
+
+| Método | Rota             | Descrição       | Auth |
+| ------ | ---------------- | --------------- | ---- |
+| POST   | `/auth/register` | Criar conta     | ❌   |
+| POST   | `/auth/login`    | Autenticar      | ❌   |
+| POST   | `/auth/refresh`  | Renovar token   | ❌   |
+| POST   | `/auth/logout`   | Encerrar sessão | ✅   |
 
 #### Users
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/users/me` | Dados do usuário logado |
-| PATCH | `/users/me` | Atualizar nome/moeda |
-| DELETE | `/users/me` | Excluir conta (soft delete) |
-| PATCH | `/users/me/password` | Alterar senha |
+
+| Método | Rota                 | Descrição                   |
+| ------ | -------------------- | --------------------------- |
+| GET    | `/users/me`          | Dados do usuário logado     |
+| PATCH  | `/users/me`          | Atualizar nome/moeda        |
+| DELETE | `/users/me`          | Excluir conta (soft delete) |
+| PATCH  | `/users/me/password` | Alterar senha               |
 
 #### Accounts
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/accounts` | Listar contas + saldo total |
-| POST | `/accounts` | Criar conta |
-| GET | `/accounts/:id` | Buscar por ID |
-| PATCH | `/accounts/:id` | Atualizar |
-| DELETE | `/accounts/:id` | Excluir (soft delete) |
+
+| Método | Rota            | Descrição                   |
+| ------ | --------------- | --------------------------- |
+| GET    | `/accounts`     | Listar contas + saldo total |
+| POST   | `/accounts`     | Criar conta                 |
+| GET    | `/accounts/:id` | Buscar por ID               |
+| PATCH  | `/accounts/:id` | Atualizar                   |
+| DELETE | `/accounts/:id` | Excluir (soft delete)       |
 
 #### Categories
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/categories` | Listar (filtro por type) |
-| POST | `/categories` | Criar |
-| GET | `/categories/:id` | Buscar por ID |
-| PATCH | `/categories/:id` | Atualizar |
-| DELETE | `/categories/:id` | Excluir |
+
+| Método | Rota              | Descrição                |
+| ------ | ----------------- | ------------------------ |
+| GET    | `/categories`     | Listar (filtro por type) |
+| POST   | `/categories`     | Criar                    |
+| GET    | `/categories/:id` | Buscar por ID            |
+| PATCH  | `/categories/:id` | Atualizar                |
+| DELETE | `/categories/:id` | Excluir                  |
 
 #### Transactions
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/transactions` | Listar com filtros e paginação |
-| POST | `/transactions` | Criar |
-| GET | `/transactions/:id` | Buscar por ID |
-| PATCH | `/transactions/:id` | Atualizar |
-| DELETE | `/transactions/:id` | Excluir (soft delete) |
-| POST | `/transactions/import` | Upload CSV/OFX (retorna preview) |
-| POST | `/transactions/import/confirm` | Confirmar importação |
+
+| Método | Rota                           | Descrição                        |
+| ------ | ------------------------------ | -------------------------------- |
+| GET    | `/transactions`                | Listar com filtros e paginação   |
+| POST   | `/transactions`                | Criar                            |
+| GET    | `/transactions/:id`            | Buscar por ID                    |
+| PATCH  | `/transactions/:id`            | Atualizar                        |
+| DELETE | `/transactions/:id`            | Excluir (soft delete)            |
+| POST   | `/transactions/import`         | Upload CSV/OFX (retorna preview) |
+| POST   | `/transactions/import/confirm` | Confirmar importação             |
 
 #### Recurrences
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/recurrences` | Listar |
-| POST | `/recurrences` | Criar |
-| PATCH | `/recurrences/:id` | Atualizar (com update_scope) |
-| DELETE | `/recurrences/:id` | Cancelar |
+
+| Método | Rota               | Descrição                    |
+| ------ | ------------------ | ---------------------------- |
+| GET    | `/recurrences`     | Listar                       |
+| POST   | `/recurrences`     | Criar                        |
+| PATCH  | `/recurrences/:id` | Atualizar (com update_scope) |
+| DELETE | `/recurrences/:id` | Cancelar                     |
 
 #### Budgets
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/budgets` | Listar com progresso calculado |
-| POST | `/budgets` | Criar |
-| PATCH | `/budgets/:id` | Atualizar |
-| DELETE | `/budgets/:id` | Excluir |
+
+| Método | Rota           | Descrição                      |
+| ------ | -------------- | ------------------------------ |
+| GET    | `/budgets`     | Listar com progresso calculado |
+| POST   | `/budgets`     | Criar                          |
+| PATCH  | `/budgets/:id` | Atualizar                      |
+| DELETE | `/budgets/:id` | Excluir                        |
 
 #### Goals
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/goals` | Listar |
-| POST | `/goals` | Criar |
-| PATCH | `/goals/:id` | Atualizar |
-| DELETE | `/goals/:id` | Excluir |
-| POST | `/goals/:id/deposit` | Adicionar valor à meta |
+
+| Método | Rota                 | Descrição              |
+| ------ | -------------------- | ---------------------- |
+| GET    | `/goals`             | Listar                 |
+| POST   | `/goals`             | Criar                  |
+| PATCH  | `/goals/:id`         | Atualizar              |
+| DELETE | `/goals/:id`         | Excluir                |
+| POST   | `/goals/:id/deposit` | Adicionar valor à meta |
 
 #### Reports
-| Método | Rota | Descrição |
-|---|---|---|
-| GET | `/reports/summary` | Resumo do período (entradas, saídas, saldo) |
-| GET | `/reports/cash-flow` | Fluxo de caixa agrupado por dia/semana/mês |
-| GET | `/reports/export` | Exportar CSV ou PDF |
+
+| Método | Rota                 | Descrição                                   |
+| ------ | -------------------- | ------------------------------------------- |
+| GET    | `/reports/summary`   | Resumo do período (entradas, saídas, saldo) |
+| GET    | `/reports/cash-flow` | Fluxo de caixa agrupado por dia/semana/mês  |
+| GET    | `/reports/export`    | Exportar CSV ou PDF                         |
 
 ---
 
@@ -542,6 +552,7 @@ PostgreSQL
 ### Exemplo de implementação: Account
 
 **`src/entities/Account.js`**
+
 ```js
 const { EntitySchema } = require('typeorm');
 
@@ -564,18 +575,18 @@ module.exports = new EntitySchema({
   name: 'Account',
   tableName: 'accounts',
   columns: {
-    id:             { type: 'uuid', primary: true, generated: 'uuid' },
-    user_id:        { type: 'uuid' },
-    name:           { type: 'varchar', length: 100 },
-    type:           { type: 'varchar', length: 20 },
-    balance:        { type: 'decimal', precision: 15, scale: 2, default: 0 },
-    currency:       { type: 'char', length: 3, default: 'BRL' },
-    color:          { type: 'varchar', length: 7, nullable: true },
-    icon:           { type: 'varchar', length: 50, nullable: true },
+    id: { type: 'uuid', primary: true, generated: 'uuid' },
+    user_id: { type: 'uuid' },
+    name: { type: 'varchar', length: 100 },
+    type: { type: 'varchar', length: 20 },
+    balance: { type: 'decimal', precision: 15, scale: 2, default: 0 },
+    currency: { type: 'char', length: 3, default: 'BRL' },
+    color: { type: 'varchar', length: 7, nullable: true },
+    icon: { type: 'varchar', length: 50, nullable: true },
     allow_negative: { type: 'boolean', default: false },
-    is_active:      { type: 'boolean', default: true },
-    created_at:     { type: 'timestamp', createDate: true },
-    deleted_at:     { type: 'timestamp', nullable: true },
+    is_active: { type: 'boolean', default: true },
+    created_at: { type: 'timestamp', createDate: true },
+    deleted_at: { type: 'timestamp', nullable: true },
   },
   relations: {
     user: { type: 'many-to-one', target: 'User', joinColumn: { name: 'user_id' } },
@@ -586,6 +597,7 @@ module.exports = new EntitySchema({
 ---
 
 **`src/repositories/AccountRepository.js`**
+
 ```js
 const { AppDataSource } = require('../config/database');
 
@@ -595,7 +607,6 @@ const { AppDataSource } = require('../config/database');
  * Não contém regras de negócio.
  */
 const AccountRepository = AppDataSource.getRepository('Account').extend({
-
   /**
    * Busca todas as contas ativas de um usuário.
    * @param {string} userId
@@ -635,6 +646,7 @@ module.exports = AccountRepository;
 ---
 
 **`src/services/AccountService.js`**
+
 ```js
 const AccountRepository = require('../repositories/AccountRepository');
 const AppError = require('../utils/AppError');
@@ -644,7 +656,6 @@ const AppError = require('../utils/AppError');
  * Contém as regras de negócio relacionadas a contas bancárias.
  */
 const AccountService = {
-
   /**
    * Lista todas as contas do usuário com o saldo total consolidado.
    * @param {string} userId
@@ -717,6 +728,7 @@ module.exports = AccountService;
 ---
 
 **`src/controllers/AccountController.js`**
+
 ```js
 const AccountService = require('../services/AccountService');
 
@@ -725,7 +737,6 @@ const AccountService = require('../services/AccountService');
  * Responsável por extrair dados da requisição e formatar a resposta HTTP.
  */
 const AccountController = {
-
   /** @param {import('express').Request} req @param {import('express').Response} res */
   async list(req, res) {
     const result = await AccountService.list(req.user.id);
@@ -763,6 +774,7 @@ module.exports = AccountController;
 ---
 
 **`src/utils/AppError.js`**
+
 ```js
 /**
  * Erro customizado da aplicação.
@@ -790,6 +802,7 @@ module.exports = AppError;
 ---
 
 **`src/middlewares/errorHandler.js`**
+
 ```js
 const AppError = require('../utils/AppError');
 
@@ -855,7 +868,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5432:5432"
+      - '5432:5432'
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -866,7 +879,7 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
     ports:
-      - "5433:5432"
+      - '5433:5432'
 
 volumes:
   pgdata:
@@ -879,15 +892,15 @@ volumes:
 ```json
 {
   "scripts": {
-    "start":            "node src/server.js",
-    "dev":              "nodemon src/server.js",
-    "migration:run":    "typeorm-ts-node-commonjs migration:run -d src/config/database.js",
+    "start": "node src/server.js",
+    "dev": "nodemon src/server.js",
+    "migration:run": "typeorm-ts-node-commonjs migration:run -d src/config/database.js",
     "migration:revert": "typeorm-ts-node-commonjs migration:revert -d src/config/database.js",
-    "test":             "jest",
-    "test:unit":        "jest --selectProjects unit",
+    "test": "jest",
+    "test:unit": "jest --selectProjects unit",
     "test:integration": "jest --selectProjects integration",
-    "test:e2e":         "jest --selectProjects e2e",
-    "test:coverage":    "jest --coverage"
+    "test:e2e": "jest --selectProjects e2e",
+    "test:coverage": "jest --coverage"
   }
 }
 ```
@@ -900,11 +913,11 @@ volumes:
 
 ### Filosofia
 
-| Tipo | O que testar | Usa banco? | Usa HTTP? |
-|---|---|---|---|
-| **Unitário** | Services e utils isoladamente (mockar os repositories) | ❌ | ❌ |
-| **Integração** | Repositories com banco real de teste | ✅ | ❌ |
-| **E2E** | Endpoints HTTP completos com banco de teste | ✅ | ✅ |
+| Tipo           | O que testar                                           | Usa banco? | Usa HTTP? |
+| -------------- | ------------------------------------------------------ | ---------- | --------- |
+| **Unitário**   | Services e utils isoladamente (mockar os repositories) | ❌         | ❌        |
+| **Integração** | Repositories com banco real de teste                   | ✅         | ❌        |
+| **E2E**        | Endpoints HTTP completos com banco de teste            | ✅         | ✅        |
 
 ---
 
@@ -941,6 +954,7 @@ module.exports = {
 ### Exemplos de esqueleto de teste (para você preencher)
 
 **`tests/unit/services/AccountService.test.js`**
+
 ```js
 const AccountService = require('../../../src/services/AccountService');
 const AccountRepository = require('../../../src/repositories/AccountRepository');
@@ -949,7 +963,6 @@ const AccountRepository = require('../../../src/repositories/AccountRepository')
 jest.mock('../../../src/repositories/AccountRepository');
 
 describe('AccountService', () => {
-
   describe('list', () => {
     it('deve retornar as contas do usuário com o saldo total', async () => {
       // TODO: implemente o teste
@@ -979,13 +992,13 @@ describe('AccountService', () => {
       // TODO: implemente o teste
     });
   });
-
 });
 ```
 
 ---
 
 **`tests/integration/repositories/AccountRepository.test.js`**
+
 ```js
 const { AppDataSource } = require('../../../src/config/database');
 const AccountRepository = require('../../../src/repositories/AccountRepository');
@@ -1003,7 +1016,6 @@ beforeEach(async () => {
 });
 
 describe('AccountRepository', () => {
-
   describe('findByUser', () => {
     it('deve retornar apenas as contas do usuário informado', async () => {
       // TODO: implemente o teste
@@ -1023,13 +1035,13 @@ describe('AccountRepository', () => {
       // TODO: implemente o teste
     });
   });
-
 });
 ```
 
 ---
 
 **`tests/e2e/accounts.e2e.test.js`**
+
 ```js
 const request = require('supertest');
 const app = require('../../src/app');
@@ -1070,6 +1082,7 @@ describe('DELETE /v1/accounts/:id', () => {
 ---
 
 **`tests/factories/accountFactory.js`**
+
 ```js
 /**
  * Cria um objeto de conta para uso nos testes.
@@ -1094,16 +1107,19 @@ module.exports = { makeAccount };
 ### Guia de o que testar (por onde começar)
 
 **Testes unitários — comece por aqui:**
+
 - `TransactionService`: regra de saldo negativo, criação de transferência em par, cálculo de status por data
 - `BudgetService`: cálculo de `spent`, `remaining`, `usage_percent` e `alert_triggered`
 - `GoalService`: mudança automática de status para `completed`
 - `dateHelper`: cálculo de `next_due_date` para cada frequência (daily, weekly, monthly, yearly)
 
 **Testes de integração:**
+
 - `TransactionRepository`: filtros por data, conta, categoria e paginação
 - `AccountRepository`: `updateBalance` com valores positivos e negativos
 
 **Testes e2e — os mais completos:**
+
 - Fluxo de autenticação: register → login → acessar rota protegida → refresh token
 - Fluxo de transferência: criar transferência e verificar que dois registros foram criados com `transfer_pair_id`
 - Fluxo de orçamento: criar transações e verificar que `usage_percent` e `alert_triggered` retornam corretos

@@ -5,10 +5,10 @@
  */
 function makeTransaction(overrides = {}) {
   return {
-    type: "expense",
+    type: 'expense',
     amount: 100.0,
-    description: "Transação Teste",
-    date: new Date().toISOString().split("T")[0],
+    description: 'Transação Teste',
+    date: new Date().toISOString().split('T')[0],
     ...overrides,
   };
 }

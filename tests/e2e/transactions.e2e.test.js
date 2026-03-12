@@ -1,6 +1,6 @@
-const request = require("supertest");
-const app = require("../../src/app");
-const { AppDataSource } = require("../../src/config/database");
+const request = require('supertest');
+const app = require('../../src/app');
+const { AppDataSource } = require('../../src/config/database');
 
 let token;
 let accountId;
@@ -31,44 +31,44 @@ afterAll(async () => {
   }
 });
 
-describe("Transactions E2E", () => {
+describe('Transactions E2E', () => {
   let transactionId;
 
-  describe("POST /v1/transactions", () => {
-    it("deve criar transação de despesa (201)", async () => {
+  describe('POST /v1/transactions', () => {
+    it('deve criar transação de despesa (201)', async () => {
       // TODO: implemente o teste
       // transactionId = res.body.id;
     });
 
-    it("deve rejeitar type incompatível com categoria (422)", async () => {
+    it('deve rejeitar type incompatível com categoria (422)', async () => {
       // TODO: implemente o teste
     });
   });
 
-  describe("GET /v1/transactions", () => {
-    it("deve listar transações com paginação (200)", async () => {
+  describe('GET /v1/transactions', () => {
+    it('deve listar transações com paginação (200)', async () => {
       // TODO: implemente o teste
     });
 
-    it("deve filtrar por data (200)", async () => {
-      // TODO: implemente o teste
-    });
-  });
-
-  describe("GET /v1/transactions/:id", () => {
-    it("deve retornar transação por ID (200)", async () => {
+    it('deve filtrar por data (200)', async () => {
       // TODO: implemente o teste
     });
   });
 
-  describe("PATCH /v1/transactions/:id", () => {
-    it("deve atualizar transação (200)", async () => {
+  describe('GET /v1/transactions/:id', () => {
+    it('deve retornar transação por ID (200)', async () => {
       // TODO: implemente o teste
     });
   });
 
-  describe("DELETE /v1/transactions/:id", () => {
-    it("deve remover transação (204)", async () => {
+  describe('PATCH /v1/transactions/:id', () => {
+    it('deve atualizar transação (200)', async () => {
+      // TODO: implemente o teste
+    });
+  });
+
+  describe('DELETE /v1/transactions/:id', () => {
+    it('deve remover transação (204)', async () => {
       // TODO: implemente o teste
     });
   });

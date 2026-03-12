@@ -54,17 +54,17 @@ components:
     UUID:
       type: string
       format: uuid
-      example: "550e8400-e29b-41d4-a716-446655440000"
+      example: '550e8400-e29b-41d4-a716-446655440000'
 
     Timestamp:
       type: string
       format: date-time
-      example: "2025-03-10T14:30:00Z"
+      example: '2025-03-10T14:30:00Z'
 
     Date:
       type: string
       format: date
-      example: "2025-03-10"
+      example: '2025-03-10'
 
     Money:
       type: number
@@ -97,7 +97,7 @@ components:
       properties:
         code:
           type: string
-          example: "VALIDATION_ERROR"
+          example: 'VALIDATION_ERROR'
         message:
           type: string
           example: "O campo 'amount' é obrigatório."
@@ -119,24 +119,24 @@ components:
         email:
           type: string
           format: email
-          example: "joao@email.com"
+          example: 'joao@email.com'
         password:
           type: string
           minLength: 8
-          example: "senhaSegura123"
+          example: 'senhaSegura123'
 
     LoginResponse:
       type: object
       properties:
         access_token:
           type: string
-          example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+          example: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
         refresh_token:
           type: string
-          example: "dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4..."
+          example: 'dGhpcyBpcyBhIHJlZnJlc2ggdG9rZW4...'
         token_type:
           type: string
-          example: "Bearer"
+          example: 'Bearer'
         expires_in:
           type: integer
           description: Segundos até expirar
@@ -157,15 +157,15 @@ components:
         name:
           type: string
           maxLength: 100
-          example: "João Silva"
+          example: 'João Silva'
         email:
           type: string
           format: email
-          example: "joao@email.com"
+          example: 'joao@email.com'
         password:
           type: string
           minLength: 8
-          example: "senhaSegura123"
+          example: 'senhaSegura123'
         currency:
           type: string
           enum: [BRL, USD, EUR]
@@ -175,18 +175,18 @@ components:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         name:
           type: string
-          example: "João Silva"
+          example: 'João Silva'
         email:
           type: string
-          example: "joao@email.com"
+          example: 'joao@email.com'
         currency:
           type: string
-          example: "BRL"
+          example: 'BRL'
         created_at:
-          $ref: "#/components/schemas/Timestamp"
+          $ref: '#/components/schemas/Timestamp'
 
     UserUpdateRequest:
       type: object
@@ -210,22 +210,22 @@ components:
         name:
           type: string
           maxLength: 100
-          example: "Nubank"
+          example: 'Nubank'
         type:
-          $ref: "#/components/schemas/AccountType"
+          $ref: '#/components/schemas/AccountType'
         initial_balance:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         currency:
           type: string
           default: BRL
-          example: "BRL"
+          example: 'BRL'
         color:
           type: string
-          pattern: "^#[0-9A-Fa-f]{6}$"
-          example: "#8A05BE"
+          pattern: '^#[0-9A-Fa-f]{6}$'
+          example: '#8A05BE'
         icon:
           type: string
-          example: "credit-card"
+          example: 'credit-card'
         allow_negative:
           type: boolean
           default: false
@@ -234,29 +234,29 @@ components:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         name:
           type: string
-          example: "Nubank"
+          example: 'Nubank'
         type:
-          $ref: "#/components/schemas/AccountType"
+          $ref: '#/components/schemas/AccountType'
         balance:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         currency:
           type: string
-          example: "BRL"
+          example: 'BRL'
         color:
           type: string
-          example: "#8A05BE"
+          example: '#8A05BE'
         icon:
           type: string
-          example: "credit-card"
+          example: 'credit-card'
         allow_negative:
           type: boolean
         is_active:
           type: boolean
         created_at:
-          $ref: "#/components/schemas/Timestamp"
+          $ref: '#/components/schemas/Timestamp'
 
     # ── Category ─────────────────────────────────
     CategoryType:
@@ -270,38 +270,38 @@ components:
         name:
           type: string
           maxLength: 100
-          example: "Alimentação"
+          example: 'Alimentação'
         type:
-          $ref: "#/components/schemas/CategoryType"
+          $ref: '#/components/schemas/CategoryType'
         color:
           type: string
-          pattern: "^#[0-9A-Fa-f]{6}$"
-          example: "#F59E0B"
+          pattern: '^#[0-9A-Fa-f]{6}$'
+          example: '#F59E0B'
         icon:
           type: string
-          example: "utensils"
+          example: 'utensils'
         parent_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
 
     CategoryResponse:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         name:
           type: string
         type:
-          $ref: "#/components/schemas/CategoryType"
+          $ref: '#/components/schemas/CategoryType'
         color:
           type: string
         icon:
           type: string
         parent_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         is_default:
           type: boolean
         created_at:
-          $ref: "#/components/schemas/Timestamp"
+          $ref: '#/components/schemas/Timestamp'
 
     # ── Transaction ──────────────────────────────
     TransactionType:
@@ -317,58 +317,58 @@ components:
       required: [account_id, type, amount, date]
       properties:
         account_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         category_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         type:
-          $ref: "#/components/schemas/TransactionType"
+          $ref: '#/components/schemas/TransactionType'
         amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         description:
           type: string
           maxLength: 255
-          example: "Supermercado Extra"
+          example: 'Supermercado Extra'
         date:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         status:
-          $ref: "#/components/schemas/TransactionStatus"
+          $ref: '#/components/schemas/TransactionStatus'
         notes:
           type: string
         destination_account_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
           description: Obrigatório quando type = transfer
 
     TransactionResponse:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         account_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         account:
-          $ref: "#/components/schemas/AccountResponse"
+          $ref: '#/components/schemas/AccountResponse'
         category_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         category:
-          $ref: "#/components/schemas/CategoryResponse"
+          $ref: '#/components/schemas/CategoryResponse'
         recurrence_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         type:
-          $ref: "#/components/schemas/TransactionType"
+          $ref: '#/components/schemas/TransactionType'
         amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         description:
           type: string
         date:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         status:
-          $ref: "#/components/schemas/TransactionStatus"
+          $ref: '#/components/schemas/TransactionStatus'
         transfer_pair_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         notes:
           type: string
         created_at:
-          $ref: "#/components/schemas/Timestamp"
+          $ref: '#/components/schemas/Timestamp'
 
     # ── Recurrence ───────────────────────────────
     RecurrenceFrequency:
@@ -380,23 +380,23 @@ components:
       required: [account_id, type, amount, frequency, start_date]
       properties:
         account_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         category_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         type:
-          $ref: "#/components/schemas/CategoryType"
+          $ref: '#/components/schemas/CategoryType'
         amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         description:
           type: string
           maxLength: 255
-          example: "Aluguel"
+          example: 'Aluguel'
         frequency:
-          $ref: "#/components/schemas/RecurrenceFrequency"
+          $ref: '#/components/schemas/RecurrenceFrequency'
         start_date:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         end_date:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         auto_confirm:
           type: boolean
           default: false
@@ -405,31 +405,31 @@ components:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         account_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         category_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         type:
-          $ref: "#/components/schemas/CategoryType"
+          $ref: '#/components/schemas/CategoryType'
         amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         description:
           type: string
         frequency:
-          $ref: "#/components/schemas/RecurrenceFrequency"
+          $ref: '#/components/schemas/RecurrenceFrequency'
         start_date:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         end_date:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         next_due_date:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         auto_confirm:
           type: boolean
         is_active:
           type: boolean
         created_at:
-          $ref: "#/components/schemas/Timestamp"
+          $ref: '#/components/schemas/Timestamp'
 
     # ── Budget ───────────────────────────────────
     BudgetPeriod:
@@ -441,11 +441,11 @@ components:
       required: [category_id, amount, period, year]
       properties:
         category_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         period:
-          $ref: "#/components/schemas/BudgetPeriod"
+          $ref: '#/components/schemas/BudgetPeriod'
         year:
           type: integer
           example: 2025
@@ -467,22 +467,22 @@ components:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         category_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         category:
-          $ref: "#/components/schemas/CategoryResponse"
+          $ref: '#/components/schemas/CategoryResponse'
         amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         spent:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         remaining:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         usage_percent:
           type: number
           example: 72.5
         period:
-          $ref: "#/components/schemas/BudgetPeriod"
+          $ref: '#/components/schemas/BudgetPeriod'
         year:
           type: integer
         month:
@@ -492,7 +492,7 @@ components:
         alert_triggered:
           type: boolean
         created_at:
-          $ref: "#/components/schemas/Timestamp"
+          $ref: '#/components/schemas/Timestamp'
 
     # ── Goal ─────────────────────────────────────
     GoalStatus:
@@ -506,39 +506,39 @@ components:
         name:
           type: string
           maxLength: 100
-          example: "Viagem para Europa"
+          example: 'Viagem para Europa'
         target_amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         account_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         deadline:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         color:
           type: string
-          pattern: "^#[0-9A-Fa-f]{6}$"
-          example: "#10B981"
+          pattern: '^#[0-9A-Fa-f]{6}$'
+          example: '#10B981'
         icon:
           type: string
-          example: "plane"
+          example: 'plane'
 
     GoalResponse:
       type: object
       properties:
         id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         name:
           type: string
         target_amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         current_amount:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         progress_percent:
           type: number
           example: 45.5
         account_id:
-          $ref: "#/components/schemas/UUID"
+          $ref: '#/components/schemas/UUID'
         deadline:
-          $ref: "#/components/schemas/Date"
+          $ref: '#/components/schemas/Date'
         days_remaining:
           type: integer
           example: 180
@@ -547,9 +547,9 @@ components:
         icon:
           type: string
         status:
-          $ref: "#/components/schemas/GoalStatus"
+          $ref: '#/components/schemas/GoalStatus'
         created_at:
-          $ref: "#/components/schemas/Timestamp"
+          $ref: '#/components/schemas/Timestamp'
 
     # ── Reports ──────────────────────────────────
     SummaryResponse:
@@ -559,20 +559,20 @@ components:
           type: object
           properties:
             start:
-              $ref: "#/components/schemas/Date"
+              $ref: '#/components/schemas/Date'
             end:
-              $ref: "#/components/schemas/Date"
+              $ref: '#/components/schemas/Date'
         opening_balance:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         total_income:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         total_expense:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         net:
           type: number
           example: 850.00
         closing_balance:
-          $ref: "#/components/schemas/Money"
+          $ref: '#/components/schemas/Money'
         transactions_count:
           type: integer
         by_category:
@@ -581,13 +581,13 @@ components:
             type: object
             properties:
               category_id:
-                $ref: "#/components/schemas/UUID"
+                $ref: '#/components/schemas/UUID'
               category_name:
                 type: string
               type:
-                $ref: "#/components/schemas/CategoryType"
+                $ref: '#/components/schemas/CategoryType'
               total:
-                $ref: "#/components/schemas/Money"
+                $ref: '#/components/schemas/Money'
               percent:
                 type: number
 
@@ -600,7 +600,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
           example:
             code: UNAUTHORIZED
             message: Token inválido ou expirado.
@@ -610,7 +610,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
           example:
             code: NOT_FOUND
             message: Recurso não encontrado.
@@ -620,7 +620,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
           example:
             code: VALIDATION_ERROR
             message: Dados inválidos.
@@ -633,7 +633,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/Error"
+            $ref: '#/components/schemas/Error'
 
   # ─────────────────────────────────────────────
   # PARAMETERS
@@ -644,7 +644,7 @@ components:
       in: path
       required: true
       schema:
-        $ref: "#/components/schemas/UUID"
+        $ref: '#/components/schemas/UUID'
 
     QueryPage:
       name: page
@@ -665,14 +665,14 @@ components:
       name: date_from
       in: query
       schema:
-        $ref: "#/components/schemas/Date"
+        $ref: '#/components/schemas/Date'
       description: Data inicial do filtro
 
     QueryDateTo:
       name: date_to
       in: query
       schema:
-        $ref: "#/components/schemas/Date"
+        $ref: '#/components/schemas/Date'
       description: Data final do filtro
 
 # ─────────────────────────────────────────────
@@ -690,22 +690,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserRegisterRequest"
+              $ref: '#/components/schemas/UserRegisterRequest'
       responses:
-        "201":
+        '201':
           description: Usuário criado com sucesso
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LoginResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
-        "409":
+                $ref: '#/components/schemas/LoginResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
           description: E-mail já cadastrado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
   /auth/login:
     post:
@@ -717,16 +717,16 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/LoginRequest"
+              $ref: '#/components/schemas/LoginRequest'
       responses:
-        "200":
+        '200':
           description: Login realizado com sucesso
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LoginResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /auth/refresh:
     post:
@@ -738,23 +738,23 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RefreshTokenRequest"
+              $ref: '#/components/schemas/RefreshTokenRequest'
       responses:
-        "200":
+        '200':
           description: Token renovado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/LoginResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+                $ref: '#/components/schemas/LoginResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   /auth/logout:
     post:
       tags: [Auth]
       summary: Encerrar sessão
       responses:
-        "204":
+        '204':
           description: Logout realizado
 
   # ── USERS ────────────────────────────────────
@@ -763,14 +763,14 @@ paths:
       tags: [Users]
       summary: Retornar dados do usuário autenticado
       responses:
-        "200":
+        '200':
           description: Dados do usuário
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserResponse"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+                $ref: '#/components/schemas/UserResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
     patch:
       tags: [Users]
@@ -780,22 +780,22 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/UserUpdateRequest"
+              $ref: '#/components/schemas/UserUpdateRequest'
       responses:
-        "200":
+        '200':
           description: Usuário atualizado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/UserResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
+                $ref: '#/components/schemas/UserResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
 
     delete:
       tags: [Users]
       summary: Excluir conta (soft delete)
       responses:
-        "204":
+        '204':
           description: Conta excluída
 
   /users/me/password:
@@ -816,12 +816,12 @@ paths:
                   type: string
                   minLength: 8
       responses:
-        "204":
+        '204':
           description: Senha alterada
-        "400":
-          $ref: "#/components/responses/ValidationError"
-        "401":
-          $ref: "#/components/responses/Unauthorized"
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
 
   # ── ACCOUNTS ─────────────────────────────────
   /accounts:
@@ -834,7 +834,7 @@ paths:
           schema:
             type: boolean
       responses:
-        "200":
+        '200':
           description: Lista de contas
           content:
             application/json:
@@ -844,9 +844,9 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/AccountResponse"
+                      $ref: '#/components/schemas/AccountResponse'
                   total_balance:
-                    $ref: "#/components/schemas/Money"
+                    $ref: '#/components/schemas/Money'
 
     post:
       tags: [Accounts]
@@ -856,33 +856,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AccountRequest"
+              $ref: '#/components/schemas/AccountRequest'
       responses:
-        "201":
+        '201':
           description: Conta criada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AccountResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
 
   /accounts/{id}:
     parameters:
-      - $ref: "#/components/parameters/PathId"
+      - $ref: '#/components/parameters/PathId'
 
     get:
       tags: [Accounts]
       summary: Retornar conta por ID
       responses:
-        "200":
+        '200':
           description: Dados da conta
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AccountResponse"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/AccountResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     patch:
       tags: [Accounts]
@@ -892,31 +892,31 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/AccountRequest"
+              $ref: '#/components/schemas/AccountRequest'
       responses:
-        "200":
+        '200':
           description: Conta atualizada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/AccountResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/AccountResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     delete:
       tags: [Accounts]
       summary: Excluir conta (soft delete)
       responses:
-        "204":
+        '204':
           description: Conta excluída
-        "409":
+        '409':
           description: Conta possui transações vinculadas
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
   # ── CATEGORIES ───────────────────────────────
   /categories:
@@ -927,16 +927,16 @@ paths:
         - name: type
           in: query
           schema:
-            $ref: "#/components/schemas/CategoryType"
+            $ref: '#/components/schemas/CategoryType'
       responses:
-        "200":
+        '200':
           description: Lista de categorias
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/CategoryResponse"
+                  $ref: '#/components/schemas/CategoryResponse'
 
     post:
       tags: [Categories]
@@ -946,33 +946,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CategoryRequest"
+              $ref: '#/components/schemas/CategoryRequest'
       responses:
-        "201":
+        '201':
           description: Categoria criada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CategoryResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
+                $ref: '#/components/schemas/CategoryResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
 
   /categories/{id}:
     parameters:
-      - $ref: "#/components/parameters/PathId"
+      - $ref: '#/components/parameters/PathId'
 
     get:
       tags: [Categories]
       summary: Retornar categoria por ID
       responses:
-        "200":
+        '200':
           description: Dados da categoria
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CategoryResponse"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/CategoryResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     patch:
       tags: [Categories]
@@ -982,14 +982,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/CategoryRequest"
+              $ref: '#/components/schemas/CategoryRequest'
       responses:
-        "200":
+        '200':
           description: Categoria atualizada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/CategoryResponse"
+                $ref: '#/components/schemas/CategoryResponse'
 
     delete:
       tags: [Categories]
@@ -998,14 +998,14 @@ paths:
         Só é possível excluir se não houver transações vinculadas ativas.
         Transações devem ser reclassificadas antes.
       responses:
-        "204":
+        '204':
           description: Categoria excluída
-        "409":
+        '409':
           description: Categoria possui transações vinculadas
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
   # ── TRANSACTIONS ─────────────────────────────
   /transactions:
@@ -1013,26 +1013,26 @@ paths:
       tags: [Transactions]
       summary: Listar transações
       parameters:
-        - $ref: "#/components/parameters/QueryPage"
-        - $ref: "#/components/parameters/QueryPerPage"
-        - $ref: "#/components/parameters/QueryDateFrom"
-        - $ref: "#/components/parameters/QueryDateTo"
+        - $ref: '#/components/parameters/QueryPage'
+        - $ref: '#/components/parameters/QueryPerPage'
+        - $ref: '#/components/parameters/QueryDateFrom'
+        - $ref: '#/components/parameters/QueryDateTo'
         - name: account_id
           in: query
           schema:
-            $ref: "#/components/schemas/UUID"
+            $ref: '#/components/schemas/UUID'
         - name: category_id
           in: query
           schema:
-            $ref: "#/components/schemas/UUID"
+            $ref: '#/components/schemas/UUID'
         - name: type
           in: query
           schema:
-            $ref: "#/components/schemas/TransactionType"
+            $ref: '#/components/schemas/TransactionType'
         - name: status
           in: query
           schema:
-            $ref: "#/components/schemas/TransactionStatus"
+            $ref: '#/components/schemas/TransactionStatus'
         - name: search
           in: query
           schema:
@@ -1047,7 +1047,7 @@ paths:
           schema:
             type: number
       responses:
-        "200":
+        '200':
           description: Lista paginada de transações
           content:
             application/json:
@@ -1057,9 +1057,9 @@ paths:
                   data:
                     type: array
                     items:
-                      $ref: "#/components/schemas/TransactionResponse"
+                      $ref: '#/components/schemas/TransactionResponse'
                   pagination:
-                    $ref: "#/components/schemas/Pagination"
+                    $ref: '#/components/schemas/Pagination'
 
     post:
       tags: [Transactions]
@@ -1069,39 +1069,39 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TransactionRequest"
+              $ref: '#/components/schemas/TransactionRequest'
       responses:
-        "201":
+        '201':
           description: Transação criada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TransactionResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
-        "422":
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '422':
           description: Saldo insuficiente (quando allow_negative = false)
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
   /transactions/{id}:
     parameters:
-      - $ref: "#/components/parameters/PathId"
+      - $ref: '#/components/parameters/PathId'
 
     get:
       tags: [Transactions]
       summary: Retornar transação por ID
       responses:
-        "200":
+        '200':
           description: Dados da transação
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TransactionResponse"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/TransactionResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     patch:
       tags: [Transactions]
@@ -1112,27 +1112,27 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/TransactionRequest"
+              $ref: '#/components/schemas/TransactionRequest'
       responses:
-        "200":
+        '200':
           description: Transação atualizada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/TransactionResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
-        "404":
-          $ref: "#/components/responses/NotFound"
+                $ref: '#/components/schemas/TransactionResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '404':
+          $ref: '#/components/responses/NotFound'
 
     delete:
       tags: [Transactions]
       summary: Excluir transação (soft delete)
       responses:
-        "204":
+        '204':
           description: Transação excluída
-        "404":
-          $ref: "#/components/responses/NotFound"
+        '404':
+          $ref: '#/components/responses/NotFound'
 
   /transactions/import:
     post:
@@ -1153,9 +1153,9 @@ paths:
                   type: string
                   format: binary
                 account_id:
-                  $ref: "#/components/schemas/UUID"
+                  $ref: '#/components/schemas/UUID'
       responses:
-        "200":
+        '200':
           description: Preview de importação
           content:
             application/json:
@@ -1172,13 +1172,13 @@ paths:
                     type: array
                     items:
                       allOf:
-                        - $ref: "#/components/schemas/TransactionResponse"
+                        - $ref: '#/components/schemas/TransactionResponse'
                         - type: object
                           properties:
                             is_duplicate:
                               type: boolean
-        "400":
-          $ref: "#/components/responses/ValidationError"
+        '400':
+          $ref: '#/components/responses/ValidationError'
 
   /transactions/import/confirm:
     post:
@@ -1195,9 +1195,9 @@ paths:
                 transaction_ids:
                   type: array
                   items:
-                    $ref: "#/components/schemas/UUID"
+                    $ref: '#/components/schemas/UUID'
       responses:
-        "200":
+        '200':
           description: Transações importadas
           content:
             application/json:
@@ -1218,14 +1218,14 @@ paths:
           schema:
             type: boolean
       responses:
-        "200":
+        '200':
           description: Lista de recorrências
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/RecurrenceResponse"
+                  $ref: '#/components/schemas/RecurrenceResponse'
 
     post:
       tags: [Recurrences]
@@ -1235,20 +1235,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/RecurrenceRequest"
+              $ref: '#/components/schemas/RecurrenceRequest'
       responses:
-        "201":
+        '201':
           description: Recorrência criada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RecurrenceResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
+                $ref: '#/components/schemas/RecurrenceResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
 
   /recurrences/{id}:
     parameters:
-      - $ref: "#/components/parameters/PathId"
+      - $ref: '#/components/parameters/PathId'
 
     patch:
       tags: [Recurrences]
@@ -1259,7 +1259,7 @@ paths:
           application/json:
             schema:
               allOf:
-                - $ref: "#/components/schemas/RecurrenceRequest"
+                - $ref: '#/components/schemas/RecurrenceRequest'
                 - type: object
                   properties:
                     update_scope:
@@ -1268,18 +1268,18 @@ paths:
                       default: this_and_future
                       description: Escopo da alteração nas ocorrências futuras
       responses:
-        "200":
+        '200':
           description: Recorrência atualizada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/RecurrenceResponse"
+                $ref: '#/components/schemas/RecurrenceResponse'
 
     delete:
       tags: [Recurrences]
       summary: Cancelar recorrência
       responses:
-        "204":
+        '204':
           description: Recorrência cancelada
 
   # ── BUDGETS ──────────────────────────────────
@@ -1300,14 +1300,14 @@ paths:
             minimum: 1
             maximum: 12
       responses:
-        "200":
+        '200':
           description: Lista de orçamentos com progresso atual
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/BudgetResponse"
+                  $ref: '#/components/schemas/BudgetResponse'
 
     post:
       tags: [Budgets]
@@ -1317,26 +1317,26 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BudgetRequest"
+              $ref: '#/components/schemas/BudgetRequest'
       responses:
-        "201":
+        '201':
           description: Orçamento criado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BudgetResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
-        "409":
+                $ref: '#/components/schemas/BudgetResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
+        '409':
           description: Já existe orçamento para esta categoria no período
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Error"
+                $ref: '#/components/schemas/Error'
 
   /budgets/{id}:
     parameters:
-      - $ref: "#/components/parameters/PathId"
+      - $ref: '#/components/parameters/PathId'
 
     patch:
       tags: [Budgets]
@@ -1346,20 +1346,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/BudgetRequest"
+              $ref: '#/components/schemas/BudgetRequest'
       responses:
-        "200":
+        '200':
           description: Orçamento atualizado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/BudgetResponse"
+                $ref: '#/components/schemas/BudgetResponse'
 
     delete:
       tags: [Budgets]
       summary: Excluir orçamento
       responses:
-        "204":
+        '204':
           description: Orçamento excluído
 
   # ── GOALS ────────────────────────────────────
@@ -1371,16 +1371,16 @@ paths:
         - name: status
           in: query
           schema:
-            $ref: "#/components/schemas/GoalStatus"
+            $ref: '#/components/schemas/GoalStatus'
       responses:
-        "200":
+        '200':
           description: Lista de metas com progresso
           content:
             application/json:
               schema:
                 type: array
                 items:
-                  $ref: "#/components/schemas/GoalResponse"
+                  $ref: '#/components/schemas/GoalResponse'
 
     post:
       tags: [Goals]
@@ -1390,20 +1390,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GoalRequest"
+              $ref: '#/components/schemas/GoalRequest'
       responses:
-        "201":
+        '201':
           description: Meta criada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GoalResponse"
-        "400":
-          $ref: "#/components/responses/ValidationError"
+                $ref: '#/components/schemas/GoalResponse'
+        '400':
+          $ref: '#/components/responses/ValidationError'
 
   /goals/{id}:
     parameters:
-      - $ref: "#/components/parameters/PathId"
+      - $ref: '#/components/parameters/PathId'
 
     patch:
       tags: [Goals]
@@ -1413,25 +1413,25 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/GoalRequest"
+              $ref: '#/components/schemas/GoalRequest'
       responses:
-        "200":
+        '200':
           description: Meta atualizada
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GoalResponse"
+                $ref: '#/components/schemas/GoalResponse'
 
     delete:
       tags: [Goals]
       summary: Excluir meta
       responses:
-        "204":
+        '204':
           description: Meta excluída
 
   /goals/{id}/deposit:
     parameters:
-      - $ref: "#/components/parameters/PathId"
+      - $ref: '#/components/parameters/PathId'
     post:
       tags: [Goals]
       summary: Adicionar valor à meta
@@ -1444,14 +1444,14 @@ paths:
               required: [amount]
               properties:
                 amount:
-                  $ref: "#/components/schemas/Money"
+                  $ref: '#/components/schemas/Money'
       responses:
-        "200":
+        '200':
           description: Valor adicionado
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/GoalResponse"
+                $ref: '#/components/schemas/GoalResponse'
 
   # ── REPORTS ──────────────────────────────────
   /reports/summary:
@@ -1459,20 +1459,20 @@ paths:
       tags: [Reports]
       summary: Resumo financeiro do período
       parameters:
-        - $ref: "#/components/parameters/QueryDateFrom"
-        - $ref: "#/components/parameters/QueryDateTo"
+        - $ref: '#/components/parameters/QueryDateFrom'
+        - $ref: '#/components/parameters/QueryDateTo'
         - name: account_id
           in: query
           schema:
-            $ref: "#/components/schemas/UUID"
+            $ref: '#/components/schemas/UUID'
           description: Filtrar por conta específica
       responses:
-        "200":
+        '200':
           description: Resumo financeiro
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/SummaryResponse"
+                $ref: '#/components/schemas/SummaryResponse'
 
   /reports/cash-flow:
     get:
@@ -1491,7 +1491,7 @@ paths:
             enum: [day, week, month]
             default: month
       responses:
-        "200":
+        '200':
           description: Fluxo de caixa agrupado
           content:
             application/json:
@@ -1502,11 +1502,11 @@ paths:
                   properties:
                     period:
                       type: string
-                      example: "2025-03"
+                      example: '2025-03'
                     income:
-                      $ref: "#/components/schemas/Money"
+                      $ref: '#/components/schemas/Money'
                     expense:
-                      $ref: "#/components/schemas/Money"
+                      $ref: '#/components/schemas/Money'
                     net:
                       type: number
 
@@ -1515,8 +1515,8 @@ paths:
       tags: [Reports]
       summary: Exportar transações em CSV ou PDF
       parameters:
-        - $ref: "#/components/parameters/QueryDateFrom"
-        - $ref: "#/components/parameters/QueryDateTo"
+        - $ref: '#/components/parameters/QueryDateFrom'
+        - $ref: '#/components/parameters/QueryDateTo'
         - name: format
           in: query
           required: true
@@ -1526,9 +1526,9 @@ paths:
         - name: account_id
           in: query
           schema:
-            $ref: "#/components/schemas/UUID"
+            $ref: '#/components/schemas/UUID'
       responses:
-        "200":
+        '200':
           description: Arquivo exportado
           content:
             text/csv:

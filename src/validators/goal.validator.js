@@ -1,4 +1,4 @@
-const { z } = require("zod");
+const { z } = require('zod');
 
 const createGoalSchema = z.object({
   name: z.string().min(1).max(100),

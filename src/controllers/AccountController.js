@@ -1,4 +1,4 @@
-const AccountService = require("../services/AccountService");
+const AccountService = require('../services/AccountService');
 
 /**
  * Controller de contas.
@@ -24,11 +24,7 @@ const AccountController = {
 
   /** PATCH /accounts/:id */
   async update(req, res) {
-    const account = await AccountService.update(
-      req.params.id,
-      req.user.id,
-      req.body,
-    );
+    const account = await AccountService.update(req.params.id, req.user.id, req.body);
     res.json(account);
   },
 

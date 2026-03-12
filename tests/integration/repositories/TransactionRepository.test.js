@@ -1,4 +1,4 @@
-const { AppDataSource } = require("../../../src/config/database");
+const { AppDataSource } = require('../../../src/config/database');
 
 let UserRepo;
 let AccountRepo;
@@ -14,10 +14,10 @@ beforeAll(async () => {
   }
   await AppDataSource.synchronize(true);
 
-  UserRepo = AppDataSource.getRepository("User");
-  AccountRepo = AppDataSource.getRepository("Account");
-  CategoryRepo = AppDataSource.getRepository("Category");
-  TransactionRepo = require("../../../src/repositories/TransactionRepository");
+  UserRepo = AppDataSource.getRepository('User');
+  AccountRepo = AppDataSource.getRepository('Account');
+  CategoryRepo = AppDataSource.getRepository('Category');
+  TransactionRepo = require('../../../src/repositories/TransactionRepository');
 
   // Create a new user, account and category for testing
   // TODO: implemente o teste
@@ -35,20 +35,20 @@ afterAll(async () => {
   }
 });
 
-describe("TransactionRepository", () => {
+describe('TransactionRepository', () => {
   afterEach(async () => {
-    await AppDataSource.query("DELETE FROM transactions");
+    await AppDataSource.query('DELETE FROM transactions');
   });
 
-  it("deve criar transação e buscar com paginação", async () => {
+  it('deve criar transação e buscar com paginação', async () => {
     // TODO: implemente o teste
   });
 
-  it("deve filtrar transações por período", async () => {
+  it('deve filtrar transações por período', async () => {
     // TODO: implemente o teste
   });
 
-  it("deve calcular soma por categoria e período", async () => {
+  it('deve calcular soma por categoria e período', async () => {
     // TODO: implemente o teste
   });
 });

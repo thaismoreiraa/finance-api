@@ -1,5 +1,5 @@
-const CategoryRepository = require("../repositories/CategoryRepository");
-const AppError = require("../utils/AppError");
+const CategoryRepository = require('../repositories/CategoryRepository');
+const AppError = require('../utils/AppError');
 
 /**
  * Serviço de categorias.
@@ -23,17 +23,13 @@ const CategoryService = {
    */
   async create(userId, data) {
     if (data.parent_id) {
-      const parent = await CategoryRepository.findByIdAndUser(
-        data.parent_id,
-        userId,
-      );
-      if (!parent)
-        throw new AppError("Categoria pai não encontrada.", 404, "NOT_FOUND");
+      const parent = await CategoryRepository.findByIdAndUser(data.parent_id, userId);
+      if (!parent) throw new AppError('Categoria pai não encontrada.', 404, 'NOT_FOUND');
       if (parent.type !== data.type) {
         throw new AppError(
-          "Subcategoria deve ter o mesmo tipo da categoria pai.",
+          'Subcategoria deve ter o mesmo tipo da categoria pai.',
           400,
-          "VALIDATION_ERROR",
+          'VALIDATION_ERROR'
         );
       }
     }
@@ -50,8 +46,7 @@ const CategoryService = {
    */
   async findById(id, userId) {
     const category = await CategoryRepository.findByIdAndUser(id, userId);
-    if (!category)
-      throw new AppError("Categoria não encontrada.", 404, "NOT_FOUND");
+    if (!category) throw new AppError('Categoria não encontrada.', 404, 'NOT_FOUND');
     return category;
   },
 
@@ -66,18 +61,14 @@ const CategoryService = {
     const category = await this.findById(id, userId);
 
     if (data.parent_id) {
-      const parent = await CategoryRepository.findByIdAndUser(
-        data.parent_id,
-        userId,
-      );
-      if (!parent)
-        throw new AppError("Categoria pai não encontrada.", 404, "NOT_FOUND");
+      const parent = await CategoryRepository.findByIdAndUser(data.parent_id, userId);
+      if (!parent) throw new AppError('Categoria pai não encontrada.', 404, 'NOT_FOUND');
       const targetType = data.type || category.type;
       if (parent.type !== targetType) {
         throw new AppError(
-          "Subcategoria deve ter o mesmo tipo da categoria pai.",
+          'Subcategoria deve ter o mesmo tipo da categoria pai.',
           400,
-          "VALIDATION_ERROR",
+          'VALIDATION_ERROR'
         );
       }
     }
@@ -99,9 +90,9 @@ const CategoryService = {
     const hasTx = await CategoryRepository.hasTransactions(id);
     if (hasTx) {
       throw new AppError(
-        "Categoria possui transações vinculadas. Reclassifique-as antes de excluir.",
+        'Categoria possui transações vinculadas. Reclassifique-as antes de excluir.',
         409,
-        "CONFLICT",
+        'CONFLICT'
       );
     }
 

@@ -1,4 +1,4 @@
-const CategoryService = require("../services/CategoryService");
+const CategoryService = require('../services/CategoryService');
 
 /**
  * Controller de categorias.
@@ -24,11 +24,7 @@ const CategoryController = {
 
   /** PATCH /categories/:id */
   async update(req, res) {
-    const category = await CategoryService.update(
-      req.params.id,
-      req.user.id,
-      req.body,
-    );
+    const category = await CategoryService.update(req.params.id, req.user.id, req.body);
     res.json(category);
   },
 

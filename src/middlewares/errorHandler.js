@@ -1,4 +1,4 @@
-const AppError = require("../utils/AppError");
+const AppError = require('../utils/AppError');
 
 /**
  * Middleware de tratamento de erros centralizado.
@@ -16,9 +16,7 @@ function errorHandler(err, req, res, next) {
     return res.status(err.statusCode).json(body);
   }
   console.error(err);
-  res
-    .status(500)
-    .json({ code: "INTERNAL_ERROR", message: "Erro interno do servidor." });
+  res.status(500).json({ code: 'INTERNAL_ERROR', message: 'Erro interno do servidor.' });
 }
 
 module.exports = errorHandler;

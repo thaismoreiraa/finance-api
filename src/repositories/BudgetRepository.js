@@ -1,9 +1,9 @@
-const { AppDataSource } = require("../config/database");
+const { AppDataSource } = require('../config/database');
 
 /**
  * Repositório de orçamentos.
  */
-const BudgetRepository = AppDataSource.getRepository("Budget").extend({
+const BudgetRepository = AppDataSource.getRepository('Budget').extend({
   /**
    * Busca orçamentos do usuário por ano e mês.
    * @param {string} userId
@@ -16,8 +16,8 @@ const BudgetRepository = AppDataSource.getRepository("Budget").extend({
     if (month) where.month = month;
     return this.find({
       where,
-      relations: ["category"],
-      order: { created_at: "ASC" },
+      relations: ['category'],
+      order: { created_at: 'ASC' },
     });
   },
 
@@ -30,7 +30,7 @@ const BudgetRepository = AppDataSource.getRepository("Budget").extend({
   findByIdAndUser(id, userId) {
     return this.findOne({
       where: { id, user_id: userId },
-      relations: ["category"],
+      relations: ['category'],
     });
   },
 
@@ -44,19 +44,19 @@ const BudgetRepository = AppDataSource.getRepository("Budget").extend({
    * @returns {Promise<boolean>}
    */
   async existsByCategoryAndPeriod(userId, categoryId, year, month, excludeId) {
-    const qb = this.createQueryBuilder("b")
-      .where("b.user_id = :userId", { userId })
-      .andWhere("b.category_id = :categoryId", { categoryId })
-      .andWhere("b.year = :year", { year });
+    const qb = this.createQueryBuilder('b')
+      .where('b.user_id = :userId', { userId })
+      .andWhere('b.category_id = :categoryId', { categoryId })
+      .andWhere('b.year = :year', { year });
 
     if (month) {
-      qb.andWhere("b.month = :month", { month });
+      qb.andWhere('b.month = :month', { month });
     } else {
-      qb.andWhere("b.month IS NULL");
+      qb.andWhere('b.month IS NULL');
     }
 
     if (excludeId) {
-      qb.andWhere("b.id != :excludeId", { excludeId });
+      qb.andWhere('b.id != :excludeId', { excludeId });
     }
 
     const count = await qb.getCount();

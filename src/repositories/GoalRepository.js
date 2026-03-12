@@ -1,9 +1,9 @@
-const { AppDataSource } = require("../config/database");
+const { AppDataSource } = require('../config/database');
 
 /**
  * Repositório de metas.
  */
-const GoalRepository = AppDataSource.getRepository("Goal").extend({
+const GoalRepository = AppDataSource.getRepository('Goal').extend({
   /**
    * Busca metas do usuário, opcionalmente filtrando por status.
    * @param {string} userId
@@ -13,7 +13,7 @@ const GoalRepository = AppDataSource.getRepository("Goal").extend({
   findByUser(userId, status) {
     const where = { user_id: userId };
     if (status) where.status = status;
-    return this.find({ where, order: { created_at: "DESC" } });
+    return this.find({ where, order: { created_at: 'DESC' } });
   },
 
   /**

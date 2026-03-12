@@ -5,10 +5,10 @@
  */
 function makeUser(overrides = {}) {
   return {
-    name: "Usuário Teste",
+    name: 'Usuário Teste',
     email: `teste${Date.now()}@email.com`,
-    password: "senhaSegura123",
-    currency: "BRL",
+    password: 'senhaSegura123',
+    currency: 'BRL',
     ...overrides,
   };
 }

@@ -1,4 +1,4 @@
-const { AppDataSource } = require("../../../src/config/database");
+const { AppDataSource } = require('../../../src/config/database');
 
 let UserRepo;
 let CategoryRepo;
@@ -12,9 +12,9 @@ beforeAll(async () => {
   }
   await AppDataSource.synchronize(true);
 
-  UserRepo = AppDataSource.getRepository("User");
-  CategoryRepo = AppDataSource.getRepository("Category");
-  BudgetRepo = require("../../../src/repositories/BudgetRepository");
+  UserRepo = AppDataSource.getRepository('User');
+  CategoryRepo = AppDataSource.getRepository('Category');
+  BudgetRepo = require('../../../src/repositories/BudgetRepository');
 
   // Create a new user and category for testing
   // TODO: implemente o teste
@@ -30,20 +30,20 @@ afterAll(async () => {
   }
 });
 
-describe("BudgetRepository", () => {
+describe('BudgetRepository', () => {
   afterEach(async () => {
-    await AppDataSource.query("DELETE FROM budgets");
+    await AppDataSource.query('DELETE FROM budgets');
   });
 
-  it("deve criar orçamento e buscar por período", async () => {
+  it('deve criar orçamento e buscar por período', async () => {
     // TODO: implemente o teste
   });
 
-  it("deve detectar orçamento duplicado com existsByCategoryAndPeriod", async () => {
+  it('deve detectar orçamento duplicado com existsByCategoryAndPeriod', async () => {
     // TODO: implemente o teste
   });
 
-  it("existsByCategoryAndPeriod deve excluir ID especificado", async () => {
+  it('existsByCategoryAndPeriod deve excluir ID especificado', async () => {
     // TODO: implemente o teste
   });
 });

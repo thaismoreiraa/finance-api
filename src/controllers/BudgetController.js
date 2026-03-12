@@ -1,4 +1,4 @@
-const BudgetService = require("../services/BudgetService");
+const BudgetService = require('../services/BudgetService');
 
 /**
  * Controller de orçamentos.
@@ -8,17 +8,15 @@ const BudgetController = {
   async list(req, res) {
     const { year, month } = req.query;
     if (!year) {
-      return res
-        .status(400)
-        .json({
-          code: "VALIDATION_ERROR",
-          message: "O parâmetro year é obrigatório.",
-        });
+      return res.status(400).json({
+        code: 'VALIDATION_ERROR',
+        message: 'O parâmetro year é obrigatório.',
+      });
     }
     const budgets = await BudgetService.list(
       req.user.id,
       Number(year),
-      month ? Number(month) : undefined,
+      month ? Number(month) : undefined
     );
     res.json(budgets);
   },
@@ -31,11 +29,7 @@ const BudgetController = {
 
   /** PATCH /budgets/:id */
   async update(req, res) {
-    const budget = await BudgetService.update(
-      req.params.id,
-      req.user.id,
-      req.body,
-    );
+    const budget = await BudgetService.update(req.params.id, req.user.id, req.body);
     res.json(budget);
   },
 

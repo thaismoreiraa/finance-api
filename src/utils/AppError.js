@@ -11,7 +11,7 @@ class AppError extends Error {
    * @param {number} [statusCode=400] - Código HTTP
    * @param {string} [code='ERROR'] - Código interno (ex: 'NOT_FOUND')
    */
-  constructor(message, statusCode = 400, code = "ERROR") {
+  constructor(message, statusCode = 400, code = 'ERROR') {
     super(message);
     this.statusCode = statusCode;
     this.code = code;

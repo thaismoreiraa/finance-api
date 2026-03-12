@@ -1,4 +1,4 @@
-const RecurrenceService = require("../services/RecurrenceService");
+const RecurrenceService = require('../services/RecurrenceService');
 
 /**
  * Controller de recorrências.
@@ -6,10 +6,7 @@ const RecurrenceService = require("../services/RecurrenceService");
 const RecurrenceController = {
   /** GET /recurrences */
   async list(req, res) {
-    const isActive =
-      req.query.is_active !== undefined
-        ? req.query.is_active === "true"
-        : undefined;
+    const isActive = req.query.is_active !== undefined ? req.query.is_active === 'true' : undefined;
     const recurrences = await RecurrenceService.list(req.user.id, isActive);
     res.json(recurrences);
   },
@@ -22,11 +19,7 @@ const RecurrenceController = {
 
   /** PATCH /recurrences/:id */
   async update(req, res) {
-    const recurrence = await RecurrenceService.update(
-      req.params.id,
-      req.user.id,
-      req.body,
-    );
+    const recurrence = await RecurrenceService.update(req.params.id, req.user.id, req.body);
     res.json(recurrence);
   },
 

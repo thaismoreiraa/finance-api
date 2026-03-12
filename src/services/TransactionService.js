@@ -1,11 +1,11 @@
-const { AppDataSource } = require("../config/database");
-const TransactionRepository = require("../repositories/TransactionRepository");
-const AccountRepository = require("../repositories/AccountRepository");
-const CategoryRepository = require("../repositories/CategoryRepository");
-const AuditLogRepository = require("../repositories/AuditLogRepository");
-const AppError = require("../utils/AppError");
-const { isFutureDate } = require("../utils/dateHelper");
-const { paginate, parsePagination } = require("../utils/pagination");
+const { AppDataSource } = require('../config/database');
+const TransactionRepository = require('../repositories/TransactionRepository');
+const AccountRepository = require('../repositories/AccountRepository');
+const CategoryRepository = require('../repositories/CategoryRepository');
+const AuditLogRepository = require('../repositories/AuditLogRepository');
+const AppError = require('../utils/AppError');
+const { isFutureDate } = require('../utils/dateHelper');
+const { paginate, parsePagination } = require('../utils/pagination');
 
 /**
  * Serviço de transações.
@@ -35,7 +35,7 @@ const TransactionService = {
       userId,
       filters,
       skip,
-      perPage,
+      perPage
     );
     return paginate(data, total, page, perPage);
   },
@@ -53,52 +53,41 @@ const TransactionService = {
    */
   async create(userId, data) {
     // Validar categoria vs tipo da transação
-    if (data.category_id && data.type !== "transfer") {
-      const category = await CategoryRepository.findByIdAndUser(
-        data.category_id,
-        userId,
-      );
-      if (!category)
-        throw new AppError("Categoria não encontrada.", 404, "NOT_FOUND");
+    if (data.category_id && data.type !== 'transfer') {
+      const category = await CategoryRepository.findByIdAndUser(data.category_id, userId);
+      if (!category) throw new AppError('Categoria não encontrada.', 404, 'NOT_FOUND');
       if (category.type !== data.type) {
         throw new AppError(
           `Categoria do tipo "${category.type}" não pode ser usada em transação do tipo "${data.type}".`,
           400,
-          "VALIDATION_ERROR",
+          'VALIDATION_ERROR'
         );
       }
     }
 
     // Validar conta de origem
-    const account = await AccountRepository.findByIdAndUser(
-      data.account_id,
-      userId,
-    );
-    if (!account) throw new AppError("Conta não encontrada.", 404, "NOT_FOUND");
+    const account = await AccountRepository.findByIdAndUser(data.account_id, userId);
+    if (!account) throw new AppError('Conta não encontrada.', 404, 'NOT_FOUND');
 
     // Determinar status automático
-    let status = data.status || "confirmed";
+    let status = data.status || 'confirmed';
     if (isFutureDate(data.date)) {
-      status = "scheduled";
+      status = 'scheduled';
     }
 
     // Transferências
-    if (data.type === "transfer") {
+    if (data.type === 'transfer') {
       return this._createTransfer(userId, data, account, status);
     }
 
     // Verificar saldo negativo para expense
-    if (
-      data.type === "expense" &&
-      status === "confirmed" &&
-      !account.allow_negative
-    ) {
+    if (data.type === 'expense' && status === 'confirmed' && !account.allow_negative) {
       const newBalance = Number(account.balance) - data.amount;
       if (newBalance < 0) {
         throw new AppError(
-          "Saldo insuficiente. Conta não permite saldo negativo.",
+          'Saldo insuficiente. Conta não permite saldo negativo.',
           422,
-          "INSUFFICIENT_BALANCE",
+          'INSUFFICIENT_BALANCE'
         );
       }
     }
@@ -120,8 +109,8 @@ const TransactionService = {
     const saved = await TransactionRepository.save(transaction);
 
     // Atualizar saldo se confirmada
-    if (status === "confirmed") {
-      const delta = data.type === "income" ? data.amount : -data.amount;
+    if (status === 'confirmed') {
+      const delta = data.type === 'income' ? data.amount : -data.amount;
       await AccountRepository.updateBalance(data.account_id, delta);
     }
 
@@ -139,32 +128,27 @@ const TransactionService = {
   async _createTransfer(userId, data, sourceAccount, status) {
     const destAccount = await AccountRepository.findByIdAndUser(
       data.destination_account_id,
-      userId,
+      userId
     );
-    if (!destAccount)
-      throw new AppError("Conta de destino não encontrada.", 404, "NOT_FOUND");
+    if (!destAccount) throw new AppError('Conta de destino não encontrada.', 404, 'NOT_FOUND');
 
     // Verificar saldo negativo na conta de origem
-    if (status === "confirmed" && !sourceAccount.allow_negative) {
+    if (status === 'confirmed' && !sourceAccount.allow_negative) {
       const newBalance = Number(sourceAccount.balance) - data.amount;
       if (newBalance < 0) {
-        throw new AppError(
-          "Saldo insuficiente na conta de origem.",
-          422,
-          "INSUFFICIENT_BALANCE",
-        );
+        throw new AppError('Saldo insuficiente na conta de origem.', 422, 'INSUFFICIENT_BALANCE');
       }
     }
 
     return AppDataSource.transaction(async (manager) => {
-      const txRepo = manager.getRepository("Transaction");
+      const txRepo = manager.getRepository('Transaction');
 
       // Transação de saída (conta de origem)
       const outgoing = txRepo.create({
         user_id: userId,
         account_id: data.account_id,
         category_id: data.category_id || null,
-        type: "transfer",
+        type: 'transfer',
         amount: data.amount,
         description: data.description || null,
         date: data.date,
@@ -178,7 +162,7 @@ const TransactionService = {
         user_id: userId,
         account_id: data.destination_account_id,
         category_id: data.category_id || null,
-        type: "transfer",
+        type: 'transfer',
         amount: data.amount,
         description: data.description || null,
         date: data.date,
@@ -193,12 +177,9 @@ const TransactionService = {
       await txRepo.save(savedOutgoing);
 
       // Atualizar saldos se confirmada
-      if (status === "confirmed") {
+      if (status === 'confirmed') {
         await AccountRepository.updateBalance(data.account_id, -data.amount);
-        await AccountRepository.updateBalance(
-          data.destination_account_id,
-          data.amount,
-        );
+        await AccountRepository.updateBalance(data.destination_account_id, data.amount);
       }
 
       return savedOutgoing;
@@ -213,8 +194,7 @@ const TransactionService = {
    */
   async findById(id, userId) {
     const transaction = await TransactionRepository.findByIdAndUser(id, userId);
-    if (!transaction)
-      throw new AppError("Transação não encontrada.", 404, "NOT_FOUND");
+    if (!transaction) throw new AppError('Transação não encontrada.', 404, 'NOT_FOUND');
     return transaction;
   },
 
@@ -233,11 +213,9 @@ const TransactionService = {
     const oldData = { ...transaction };
 
     // Reverter saldo antigo se estava confirmada
-    if (transaction.status === "confirmed") {
+    if (transaction.status === 'confirmed') {
       const oldDelta =
-        transaction.type === "income"
-          ? -Number(transaction.amount)
-          : Number(transaction.amount);
+        transaction.type === 'income' ? -Number(transaction.amount) : Number(transaction.amount);
       await AccountRepository.updateBalance(transaction.account_id, oldDelta);
     }
 
@@ -246,57 +224,41 @@ const TransactionService = {
 
     // Recalcular status se data mudou
     if (data.date && isFutureDate(data.date)) {
-      transaction.status = "scheduled";
+      transaction.status = 'scheduled';
     }
 
     const saved = await TransactionRepository.save(transaction);
 
     // Aplicar novo saldo se confirmada
-    if (saved.status === "confirmed") {
+    if (saved.status === 'confirmed') {
       const accountId = saved.account_id;
-      const account = await AccountRepository.findByIdAndUser(
-        accountId,
-        userId,
-      );
+      const account = await AccountRepository.findByIdAndUser(accountId, userId);
 
-      if (saved.type === "expense" && account && !account.allow_negative) {
+      if (saved.type === 'expense' && account && !account.allow_negative) {
         const projected = Number(account.balance) - Number(saved.amount);
         if (projected < 0) {
           // Reverter a operação de saldo anterior e restaurar
-          if (oldData.status === "confirmed") {
+          if (oldData.status === 'confirmed') {
             const revertDelta =
-              oldData.type === "income"
-                ? Number(oldData.amount)
-                : -Number(oldData.amount);
-            await AccountRepository.updateBalance(
-              oldData.account_id,
-              revertDelta,
-            );
+              oldData.type === 'income' ? Number(oldData.amount) : -Number(oldData.amount);
+            await AccountRepository.updateBalance(oldData.account_id, revertDelta);
           }
           Object.assign(transaction, oldData);
           await TransactionRepository.save(transaction);
           throw new AppError(
-            "Saldo insuficiente. Conta não permite saldo negativo.",
+            'Saldo insuficiente. Conta não permite saldo negativo.',
             422,
-            "INSUFFICIENT_BALANCE",
+            'INSUFFICIENT_BALANCE'
           );
         }
       }
 
-      const newDelta =
-        saved.type === "income" ? Number(saved.amount) : -Number(saved.amount);
+      const newDelta = saved.type === 'income' ? Number(saved.amount) : -Number(saved.amount);
       await AccountRepository.updateBalance(saved.account_id, newDelta);
     }
 
     // Auditoria
-    await AuditLogRepository.createLog(
-      userId,
-      "transactions",
-      id,
-      "UPDATE",
-      oldData,
-      saved,
-    );
+    await AuditLogRepository.createLog(userId, 'transactions', id, 'UPDATE', oldData, saved);
 
     return saved;
   },
@@ -313,11 +275,9 @@ const TransactionService = {
     const oldData = { ...transaction };
 
     // Reverter saldo se estava confirmada
-    if (transaction.status === "confirmed") {
+    if (transaction.status === 'confirmed') {
       const delta =
-        transaction.type === "income"
-          ? -Number(transaction.amount)
-          : Number(transaction.amount);
+        transaction.type === 'income' ? -Number(transaction.amount) : Number(transaction.amount);
       await AccountRepository.updateBalance(transaction.account_id, delta);
     }
 
@@ -325,14 +285,7 @@ const TransactionService = {
     await TransactionRepository.save(transaction);
 
     // Auditoria
-    await AuditLogRepository.createLog(
-      userId,
-      "transactions",
-      id,
-      "DELETE",
-      oldData,
-      null,
-    );
+    await AuditLogRepository.createLog(userId, 'transactions', id, 'DELETE', oldData, null);
   },
 
   /**
@@ -344,7 +297,7 @@ const TransactionService = {
    */
   async importPreview(userId, accountId, parsedRows) {
     const account = await AccountRepository.findByIdAndUser(accountId, userId);
-    if (!account) throw new AppError("Conta não encontrada.", 404, "NOT_FOUND");
+    if (!account) throw new AppError('Conta não encontrada.', 404, 'NOT_FOUND');
 
     const transactions = [];
     let duplicates = 0;
@@ -369,7 +322,7 @@ const TransactionService = {
         ...row,
         account_id: accountId,
         user_id: userId,
-        status: "pending",
+        status: 'pending',
         is_duplicate,
       });
     }
@@ -392,12 +345,11 @@ const TransactionService = {
     let imported = 0;
     for (const id of transactionIds) {
       const tx = await TransactionRepository.findByIdAndUser(id, userId);
-      if (tx && tx.status === "pending") {
-        tx.status = "confirmed";
+      if (tx && tx.status === 'pending') {
+        tx.status = 'confirmed';
         await TransactionRepository.save(tx);
 
-        const delta =
-          tx.type === "income" ? Number(tx.amount) : -Number(tx.amount);
+        const delta = tx.type === 'income' ? Number(tx.amount) : -Number(tx.amount);
         await AccountRepository.updateBalance(tx.account_id, delta);
         imported++;
       }

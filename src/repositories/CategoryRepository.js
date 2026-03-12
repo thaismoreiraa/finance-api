@@ -1,10 +1,10 @@
-const { AppDataSource } = require("../config/database");
-const { IsNull } = require("typeorm");
+const { AppDataSource } = require('../config/database');
+const { IsNull } = require('typeorm');
 
 /**
  * Repositório de categorias.
  */
-const CategoryRepository = AppDataSource.getRepository("Category").extend({
+const CategoryRepository = AppDataSource.getRepository('Category').extend({
   /**
    * Busca categorias do usuário, opcionalmente filtrando por tipo.
    * @param {string} userId
@@ -14,7 +14,7 @@ const CategoryRepository = AppDataSource.getRepository("Category").extend({
   findByUser(userId, type) {
     const where = { user_id: userId, deleted_at: IsNull() };
     if (type) where.type = type;
-    return this.find({ where, order: { name: "ASC" } });
+    return this.find({ where, order: { name: 'ASC' } });
   },
 
   /**
@@ -35,7 +35,7 @@ const CategoryRepository = AppDataSource.getRepository("Category").extend({
    * @returns {Promise<boolean>}
    */
   async hasTransactions(categoryId) {
-    const count = await AppDataSource.getRepository("Transaction").count({
+    const count = await AppDataSource.getRepository('Transaction').count({
       where: { category_id: categoryId, deleted_at: IsNull() },
     });
     return count > 0;

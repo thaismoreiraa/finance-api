@@ -1,9 +1,9 @@
-const { AppDataSource } = require("../config/database");
+const { AppDataSource } = require('../config/database');
 
 /**
  * Repositório de usuários.
  */
-const UserRepository = AppDataSource.getRepository("User").extend({
+const UserRepository = AppDataSource.getRepository('User').extend({
   /**
    * Busca um usuário pelo e-mail.
    * @param {string} email

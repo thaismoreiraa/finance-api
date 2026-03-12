@@ -1,5 +1,5 @@
-const { AppDataSource } = require("../../../src/config/database");
-const { IsNull } = require("typeorm");
+const { AppDataSource } = require('../../../src/config/database');
+const { IsNull } = require('typeorm');
 
 let UserRepo;
 let AccountRepo;
@@ -11,8 +11,8 @@ beforeAll(async () => {
   }
   await AppDataSource.synchronize(true);
 
-  UserRepo = AppDataSource.getRepository("User");
-  AccountRepo = require("../../../src/repositories/AccountRepository");
+  UserRepo = AppDataSource.getRepository('User');
+  AccountRepo = require('../../../src/repositories/AccountRepository');
 
   // Create a new user for testing
   // TODO: implemente o teste
@@ -25,22 +25,20 @@ afterAll(async () => {
   }
 });
 
-describe("AccountRepository", () => {
+describe('AccountRepository', () => {
   afterEach(async () => {
-    await AppDataSource.query("DELETE FROM accounts WHERE user_id = $1", [
-      userId,
-    ]);
+    await AppDataSource.query('DELETE FROM accounts WHERE user_id = $1', [userId]);
   });
 
-  it("deve criar conta e buscar por usuário", async () => {
+  it('deve criar conta e buscar por usuário', async () => {
     // TODO: implemente o teste
   });
 
-  it("deve atualizar saldo atomicamente via updateBalance", async () => {
+  it('deve atualizar saldo atomicamente via updateBalance', async () => {
     // TODO: implemente o teste
   });
 
-  it("findByIdAndUser deve retornar null para outro usuário", async () => {
+  it('findByIdAndUser deve retornar null para outro usuário', async () => {
     // TODO: implemente o teste
   });
 });

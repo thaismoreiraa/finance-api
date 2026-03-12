@@ -1,4 +1,4 @@
-const { AppDataSource } = require("../../../src/config/database");
+const { AppDataSource } = require('../../../src/config/database');
 
 beforeAll(async () => {
   if (!AppDataSource.isInitialized) {
@@ -13,22 +13,22 @@ afterAll(async () => {
   }
 });
 
-describe("UserRepository", () => {
-  const UserRepository = AppDataSource.getRepository("User");
+describe('UserRepository', () => {
+  const UserRepository = AppDataSource.getRepository('User');
 
   afterEach(async () => {
-    await AppDataSource.query("TRUNCATE TABLE users CASCADE");
+    await AppDataSource.query('TRUNCATE TABLE users CASCADE');
   });
 
-  it("deve criar e buscar usuário por email", async () => {
+  it('deve criar e buscar usuário por email', async () => {
     // TODO: implemente o teste
   });
 
-  it("deve rejeitar email duplicado", async () => {
+  it('deve rejeitar email duplicado', async () => {
     // TODO: implemente o teste
   });
 
-  it("deve aplicar soft delete", async () => {
+  it('deve aplicar soft delete', async () => {
     // TODO: implemente o teste
   });
 });

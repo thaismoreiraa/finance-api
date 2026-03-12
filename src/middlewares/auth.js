@@ -1,6 +1,6 @@
-const jwt = require("jsonwebtoken");
-const { env } = require("../config/env");
-const AppError = require("../utils/AppError");
+const jwt = require('jsonwebtoken');
+const { env } = require('../config/env');
+const AppError = require('../utils/AppError');
 
 /**
  * Middleware de autenticação.
@@ -13,8 +13,8 @@ const AppError = require("../utils/AppError");
 function auth(req, res, next) {
   const header = req.headers.authorization;
 
-  if (!header || !header.startsWith("Bearer ")) {
-    throw new AppError("Token não fornecido.", 401, "UNAUTHORIZED");
+  if (!header || !header.startsWith('Bearer ')) {
+    throw new AppError('Token não fornecido.', 401, 'UNAUTHORIZED');
   }
 
   const token = header.slice(7);
@@ -24,7 +24,7 @@ function auth(req, res, next) {
     req.user = { id: payload.sub, email: payload.email };
     next();
   } catch {
-    throw new AppError("Token inválido ou expirado.", 401, "UNAUTHORIZED");
+    throw new AppError('Token inválido ou expirado.', 401, 'UNAUTHORIZED');
   }
 }
 

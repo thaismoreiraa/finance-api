@@ -1,4 +1,4 @@
-const ReportService = require("../services/ReportService");
+const ReportService = require('../services/ReportService');
 
 /**
  * Controller de relatórios.
@@ -14,18 +14,12 @@ const ReportController = {
   async cashFlow(req, res) {
     const { year, group_by } = req.query;
     if (!year) {
-      return res
-        .status(400)
-        .json({
-          code: "VALIDATION_ERROR",
-          message: "O parâmetro year é obrigatório.",
-        });
+      return res.status(400).json({
+        code: 'VALIDATION_ERROR',
+        message: 'O parâmetro year é obrigatório.',
+      });
     }
-    const result = await ReportService.cashFlow(
-      req.user.id,
-      Number(year),
-      group_by,
-    );
+    const result = await ReportService.cashFlow(req.user.id, Number(year), group_by);
     res.json(result);
   },
 
@@ -33,12 +27,10 @@ const ReportController = {
   async export(req, res) {
     const { date_from, date_to, format, account_id } = req.query;
     if (!format) {
-      return res
-        .status(400)
-        .json({
-          code: "VALIDATION_ERROR",
-          message: "O parâmetro format é obrigatório.",
-        });
+      return res.status(400).json({
+        code: 'VALIDATION_ERROR',
+        message: 'O parâmetro format é obrigatório.',
+      });
     }
     const result = await ReportService.export(req.user.id, {
       date_from,
@@ -46,11 +38,8 @@ const ReportController = {
       format,
       account_id,
     });
-    res.setHeader("Content-Type", result.contentType);
-    res.setHeader(
-      "Content-Disposition",
-      `attachment; filename=transactions.${format}`,
-    );
+    res.setHeader('Content-Type', result.contentType);
+    res.setHeader('Content-Disposition', `attachment; filename=transactions.${format}`);
     res.send(result.data);
   },
 };

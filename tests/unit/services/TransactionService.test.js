@@ -1,9 +1,9 @@
-jest.mock("../../../src/config/database", () => ({
+jest.mock('../../../src/config/database', () => ({
   AppDataSource: {
     transaction: jest.fn((cb) => cb({ getRepository: jest.fn() })),
   },
 }));
-jest.mock("../../../src/repositories/TransactionRepository", () => ({
+jest.mock('../../../src/repositories/TransactionRepository', () => ({
   findByUserPaginated: jest.fn(),
   findByIdAndUser: jest.fn(),
   hasTransactionsForAccount: jest.fn(),
@@ -12,46 +12,46 @@ jest.mock("../../../src/repositories/TransactionRepository", () => ({
   save: jest.fn(),
   softRemove: jest.fn(),
 }));
-jest.mock("../../../src/repositories/AccountRepository", () => ({
+jest.mock('../../../src/repositories/AccountRepository', () => ({
   findByIdAndUser: jest.fn(),
   updateBalance: jest.fn(),
 }));
-jest.mock("../../../src/repositories/CategoryRepository", () => ({
+jest.mock('../../../src/repositories/CategoryRepository', () => ({
   findByIdAndUser: jest.fn(),
 }));
-jest.mock("../../../src/repositories/AuditLogRepository", () => ({
+jest.mock('../../../src/repositories/AuditLogRepository', () => ({
   createLog: jest.fn(),
 }));
 
-const TransactionService = require("../../../src/services/TransactionService");
-const TransactionRepository = require("../../../src/repositories/TransactionRepository");
-const AccountRepository = require("../../../src/repositories/AccountRepository");
-const CategoryRepository = require("../../../src/repositories/CategoryRepository");
-const AuditLogRepository = require("../../../src/repositories/AuditLogRepository");
+const TransactionService = require('../../../src/services/TransactionService');
+const TransactionRepository = require('../../../src/repositories/TransactionRepository');
+const AccountRepository = require('../../../src/repositories/AccountRepository');
+const CategoryRepository = require('../../../src/repositories/CategoryRepository');
+const AuditLogRepository = require('../../../src/repositories/AuditLogRepository');
 
-describe("TransactionService", () => {
+describe('TransactionService', () => {
   afterEach(() => jest.clearAllMocks());
 
-  describe("create", () => {
-    it("deve rejeitar expense quando saldo ficaria negativo e allow_negative = false", async () => {
+  describe('create', () => {
+    it('deve rejeitar expense quando saldo ficaria negativo e allow_negative = false', async () => {
       // TODO: implemente o teste
     });
 
-    it("deve rejeitar categoria de tipo diferente da transação", async () => {
+    it('deve rejeitar categoria de tipo diferente da transação', async () => {
       // TODO: implemente o teste
     });
 
-    it("deve criar transação de income e atualizar saldo", async () => {
+    it('deve criar transação de income e atualizar saldo', async () => {
       // TODO: implemente o teste
     });
 
-    it("deve marcar transação como scheduled quando data é futura", async () => {
+    it('deve marcar transação como scheduled quando data é futura', async () => {
       // TODO: implemente o teste
     });
   });
 
-  describe("remove", () => {
-    it("deve reverter o saldo e fazer soft delete", async () => {
+  describe('remove', () => {
+    it('deve reverter o saldo e fazer soft delete', async () => {
       // TODO: implemente o teste
     });
   });

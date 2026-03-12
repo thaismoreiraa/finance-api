@@ -5,9 +5,9 @@
  */
 function makeAccount(overrides = {}) {
   return {
-    name: "Conta Teste",
-    type: "checking",
-    currency: "BRL",
+    name: 'Conta Teste',
+    type: 'checking',
+    currency: 'BRL',
     allow_negative: false,
     ...overrides,
   };

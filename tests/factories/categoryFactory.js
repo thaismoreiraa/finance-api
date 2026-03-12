@@ -5,8 +5,8 @@
  */
 function makeCategory(overrides = {}) {
   return {
-    name: "Categoria Teste",
-    type: "expense",
+    name: 'Categoria Teste',
+    type: 'expense',
     ...overrides,
   };
 }

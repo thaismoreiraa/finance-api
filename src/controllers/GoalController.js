@@ -1,4 +1,4 @@
-const GoalService = require("../services/GoalService");
+const GoalService = require('../services/GoalService');
 
 /**
  * Controller de metas.
@@ -36,11 +36,7 @@ const GoalController = {
 
   /** POST /goals/:id/deposit */
   async deposit(req, res) {
-    const goal = await GoalService.deposit(
-      req.params.id,
-      req.user.id,
-      req.body.amount,
-    );
+    const goal = await GoalService.deposit(req.params.id, req.user.id, req.body.amount);
     res.json(goal);
   },
 };

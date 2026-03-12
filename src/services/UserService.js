@@ -1,6 +1,6 @@
-const bcrypt = require("bcryptjs");
-const UserRepository = require("../repositories/UserRepository");
-const AppError = require("../utils/AppError");
+const bcrypt = require('bcryptjs');
+const UserRepository = require('../repositories/UserRepository');
+const AppError = require('../utils/AppError');
 
 /**
  * Serviço de usuários.
@@ -13,7 +13,7 @@ const UserService = {
    */
   async getProfile(userId) {
     const user = await UserRepository.findByIdActive(userId);
-    if (!user) throw new AppError("Usuário não encontrado.", 404, "NOT_FOUND");
+    if (!user) throw new AppError('Usuário não encontrado.', 404, 'NOT_FOUND');
     const { password_hash, deleted_at, ...profile } = user;
     return profile;
   },
@@ -26,7 +26,7 @@ const UserService = {
    */
   async update(userId, data) {
     const user = await UserRepository.findByIdActive(userId);
-    if (!user) throw new AppError("Usuário não encontrado.", 404, "NOT_FOUND");
+    if (!user) throw new AppError('Usuário não encontrado.', 404, 'NOT_FOUND');
     Object.assign(user, data);
     await UserRepository.save(user);
     const { password_hash, deleted_at, ...profile } = user;
@@ -40,7 +40,7 @@ const UserService = {
    */
   async softDelete(userId) {
     const user = await UserRepository.findByIdActive(userId);
-    if (!user) throw new AppError("Usuário não encontrado.", 404, "NOT_FOUND");
+    if (!user) throw new AppError('Usuário não encontrado.', 404, 'NOT_FOUND');
     user.deleted_at = new Date();
     await UserRepository.save(user);
   },
@@ -53,14 +53,10 @@ const UserService = {
    */
   async changePassword(userId, data) {
     const user = await UserRepository.findByIdActive(userId);
-    if (!user) throw new AppError("Usuário não encontrado.", 404, "NOT_FOUND");
+    if (!user) throw new AppError('Usuário não encontrado.', 404, 'NOT_FOUND');
 
-    const valid = await bcrypt.compare(
-      data.current_password,
-      user.password_hash,
-    );
-    if (!valid)
-      throw new AppError("Senha atual incorreta.", 401, "UNAUTHORIZED");
+    const valid = await bcrypt.compare(data.current_password, user.password_hash);
+    if (!valid) throw new AppError('Senha atual incorreta.', 401, 'UNAUTHORIZED');
 
     user.password_hash = await bcrypt.hash(data.new_password, 10);
     await UserRepository.save(user);

@@ -1,6 +1,6 @@
-const AccountRepository = require("../repositories/AccountRepository");
-const TransactionRepository = require("../repositories/TransactionRepository");
-const AppError = require("../utils/AppError");
+const AccountRepository = require('../repositories/AccountRepository');
+const TransactionRepository = require('../repositories/TransactionRepository');
+const AppError = require('../utils/AppError');
 
 /**
  * Serviço de contas.
@@ -14,10 +14,7 @@ const AccountService = {
    */
   async list(userId) {
     const accounts = await AccountRepository.findByUser(userId);
-    const total_balance = accounts.reduce(
-      (sum, acc) => sum + Number(acc.balance),
-      0,
-    );
+    const total_balance = accounts.reduce((sum, acc) => sum + Number(acc.balance), 0);
     return { data: accounts, total_balance };
   },
 
@@ -45,7 +42,7 @@ const AccountService = {
    */
   async findById(id, userId) {
     const account = await AccountRepository.findByIdAndUser(id, userId);
-    if (!account) throw new AppError("Conta não encontrada.", 404, "NOT_FOUND");
+    if (!account) throw new AppError('Conta não encontrada.', 404, 'NOT_FOUND');
     return account;
   },
 
@@ -72,13 +69,12 @@ const AccountService = {
   async remove(id, userId) {
     const account = await this.findById(id, userId);
 
-    const hasTransactions =
-      await TransactionRepository.hasTransactionsForAccount(id);
+    const hasTransactions = await TransactionRepository.hasTransactionsForAccount(id);
     if (hasTransactions) {
       throw new AppError(
-        "Conta possui transações vinculadas. Não é possível excluir.",
+        'Conta possui transações vinculadas. Não é possível excluir.',
         409,
-        "CONFLICT",
+        'CONFLICT'
       );
     }
 

@@ -1,4 +1,4 @@
-const AppError = require("../utils/AppError");
+const AppError = require('../utils/AppError');
 
 /**
  * Factory de middleware de validação.
@@ -12,10 +12,10 @@ function validate(schema) {
     const result = schema.safeParse(req.body);
     if (!result.success) {
       const details = result.error.issues.map((issue) => ({
-        field: issue.path.join("."),
+        field: issue.path.join('.'),
         message: issue.message,
       }));
-      const error = new AppError("Dados inválidos.", 400, "VALIDATION_ERROR");
+      const error = new AppError('Dados inválidos.', 400, 'VALIDATION_ERROR');
       error.details = details;
       throw error;
     }

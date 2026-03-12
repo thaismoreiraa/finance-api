@@ -1,8 +1,8 @@
-const { z } = require("zod");
+const { z } = require('zod');
 
 const createCategorySchema = z.object({
   name: z.string().min(1).max(100),
-  type: z.enum(["income", "expense"]),
+  type: z.enum(['income', 'expense']),
   color: z
     .string()
     .regex(/^#[0-9A-Fa-f]{6}$/)
@@ -14,7 +14,7 @@ const createCategorySchema = z.object({
 
 const updateCategorySchema = z.object({
   name: z.string().min(1).max(100).optional(),
-  type: z.enum(["income", "expense"]).optional(),
+  type: z.enum(['income', 'expense']).optional(),
   color: z
     .string()
     .regex(/^#[0-9A-Fa-f]{6}$/)

@@ -1,6 +1,6 @@
-const BudgetRepository = require("../repositories/BudgetRepository");
-const TransactionRepository = require("../repositories/TransactionRepository");
-const AppError = require("../utils/AppError");
+const BudgetRepository = require('../repositories/BudgetRepository');
+const TransactionRepository = require('../repositories/TransactionRepository');
+const AppError = require('../utils/AppError');
 
 /**
  * Serviço de orçamentos.
@@ -14,11 +14,7 @@ const BudgetService = {
    * @returns {Promise<object[]>}
    */
   async list(userId, year, month) {
-    const budgets = await BudgetRepository.findByUserAndPeriod(
-      userId,
-      year,
-      month,
-    );
+    const budgets = await BudgetRepository.findByUserAndPeriod(userId, year, month);
 
     const result = [];
     for (const budget of budgets) {
@@ -41,13 +37,13 @@ const BudgetService = {
       userId,
       data.category_id,
       data.year,
-      data.month || null,
+      data.month || null
     );
     if (exists) {
       throw new AppError(
-        "Já existe um orçamento para esta categoria neste período.",
+        'Já existe um orçamento para esta categoria neste período.',
         409,
-        "CONFLICT",
+        'CONFLICT'
       );
     }
 
@@ -66,8 +62,7 @@ const BudgetService = {
    */
   async update(id, userId, data) {
     const budget = await BudgetRepository.findByIdAndUser(id, userId);
-    if (!budget)
-      throw new AppError("Orçamento não encontrado.", 404, "NOT_FOUND");
+    if (!budget) throw new AppError('Orçamento não encontrado.', 404, 'NOT_FOUND');
 
     // Verificar unicidade se category_id ou período mudou
     if (data.category_id || data.year || data.month !== undefined) {
@@ -75,18 +70,12 @@ const BudgetService = {
       const yr = data.year || budget.year;
       const mo = data.month !== undefined ? data.month : budget.month;
 
-      const exists = await BudgetRepository.existsByCategoryAndPeriod(
-        userId,
-        catId,
-        yr,
-        mo,
-        id,
-      );
+      const exists = await BudgetRepository.existsByCategoryAndPeriod(userId, catId, yr, mo, id);
       if (exists) {
         throw new AppError(
-          "Já existe um orçamento para esta categoria neste período.",
+          'Já existe um orçamento para esta categoria neste período.',
           409,
-          "CONFLICT",
+          'CONFLICT'
         );
       }
     }
@@ -105,8 +94,7 @@ const BudgetService = {
    */
   async remove(id, userId) {
     const budget = await BudgetRepository.findByIdAndUser(id, userId);
-    if (!budget)
-      throw new AppError("Orçamento não encontrado.", 404, "NOT_FOUND");
+    if (!budget) throw new AppError('Orçamento não encontrado.', 404, 'NOT_FOUND');
     await BudgetRepository.remove(budget);
   },
 
@@ -119,13 +107,13 @@ const BudgetService = {
   async _enrichBudget(budget, userId) {
     let dateFrom, dateTo;
 
-    if (budget.period === "monthly" && budget.month) {
+    if (budget.period === 'monthly' && budget.month) {
       const y = budget.year;
-      const m = String(budget.month).padStart(2, "0");
+      const m = String(budget.month).padStart(2, '0');
       dateFrom = `${y}-${m}-01`;
       // Último dia do mês
       const lastDay = new Date(y, budget.month, 0).getDate();
-      dateTo = `${y}-${m}-${String(lastDay).padStart(2, "0")}`;
+      dateTo = `${y}-${m}-${String(lastDay).padStart(2, '0')}`;
     } else {
       dateFrom = `${budget.year}-01-01`;
       dateTo = `${budget.year}-12-31`;
@@ -135,12 +123,11 @@ const BudgetService = {
       userId,
       budget.category_id,
       dateFrom,
-      dateTo,
+      dateTo
     );
     const amount = Number(budget.amount);
     const remaining = Math.max(0, amount - spent);
-    const usage_percent =
-      amount > 0 ? Math.round((spent / amount) * 10000) / 100 : 0;
+    const usage_percent = amount > 0 ? Math.round((spent / amount) * 10000) / 100 : 0;
     const alert_triggered = usage_percent >= (budget.alert_threshold || 80);
 
     return {

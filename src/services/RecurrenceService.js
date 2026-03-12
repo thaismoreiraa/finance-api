@@ -1,9 +1,9 @@
-const RecurrenceRepository = require("../repositories/RecurrenceRepository");
-const TransactionRepository = require("../repositories/TransactionRepository");
-const AccountRepository = require("../repositories/AccountRepository");
-const AppError = require("../utils/AppError");
-const { calculateNextDueDate, isFutureDate } = require("../utils/dateHelper");
-const { IsNull } = require("typeorm");
+const RecurrenceRepository = require('../repositories/RecurrenceRepository');
+const TransactionRepository = require('../repositories/TransactionRepository');
+const AccountRepository = require('../repositories/AccountRepository');
+const AppError = require('../utils/AppError');
+const { calculateNextDueDate, isFutureDate } = require('../utils/dateHelper');
+const { IsNull } = require('typeorm');
 
 /**
  * Serviço de recorrências.
@@ -26,11 +26,8 @@ const RecurrenceService = {
    * @returns {Promise<Recurrence>}
    */
   async create(userId, data) {
-    const account = await AccountRepository.findByIdAndUser(
-      data.account_id,
-      userId,
-    );
-    if (!account) throw new AppError("Conta não encontrada.", 404, "NOT_FOUND");
+    const account = await AccountRepository.findByIdAndUser(data.account_id, userId);
+    if (!account) throw new AppError('Conta não encontrada.', 404, 'NOT_FOUND');
 
     const nextDueDate = calculateNextDueDate(data.start_date, data.frequency);
 
@@ -42,10 +39,7 @@ const RecurrenceService = {
     const saved = await RecurrenceRepository.save(recurrence);
 
     // Gerar a primeira transação
-    const status =
-      data.auto_confirm && !isFutureDate(data.start_date)
-        ? "confirmed"
-        : "scheduled";
+    const status = data.auto_confirm && !isFutureDate(data.start_date) ? 'confirmed' : 'scheduled';
 
     const tx = TransactionRepository.create({
       user_id: userId,
@@ -61,8 +55,8 @@ const RecurrenceService = {
     const savedTx = await TransactionRepository.save(tx);
 
     // Atualizar saldo se confirmada
-    if (savedTx.status === "confirmed") {
-      const delta = data.type === "income" ? data.amount : -data.amount;
+    if (savedTx.status === 'confirmed') {
+      const delta = data.type === 'income' ? data.amount : -data.amount;
       await AccountRepository.updateBalance(data.account_id, delta);
     }
 
@@ -78,22 +72,21 @@ const RecurrenceService = {
    */
   async update(id, userId, data) {
     const recurrence = await RecurrenceRepository.findByIdAndUser(id, userId);
-    if (!recurrence)
-      throw new AppError("Recorrência não encontrada.", 404, "NOT_FOUND");
+    if (!recurrence) throw new AppError('Recorrência não encontrada.', 404, 'NOT_FOUND');
 
     const { update_scope, ...updateData } = data;
 
     switch (update_scope) {
-      case "this_only":
+      case 'this_only':
         // Não altera a recorrência, apenas busca e altera a transação da próxima ocorrência
         break;
 
-      case "this_and_future": {
+      case 'this_and_future': {
         Object.assign(recurrence, updateData);
         if (updateData.frequency || updateData.start_date) {
           recurrence.next_due_date = calculateNextDueDate(
             recurrence.next_due_date || recurrence.start_date,
-            recurrence.frequency,
+            recurrence.frequency
           );
         }
         await RecurrenceRepository.save(recurrence);
@@ -103,13 +96,13 @@ const RecurrenceService = {
         break;
       }
 
-      case "all":
+      case 'all':
       default: {
         Object.assign(recurrence, updateData);
         if (updateData.frequency || updateData.start_date) {
           recurrence.next_due_date = calculateNextDueDate(
             recurrence.start_date,
-            recurrence.frequency,
+            recurrence.frequency
           );
         }
         await RecurrenceRepository.save(recurrence);
@@ -131,8 +124,7 @@ const RecurrenceService = {
    */
   async remove(id, userId) {
     const recurrence = await RecurrenceRepository.findByIdAndUser(id, userId);
-    if (!recurrence)
-      throw new AppError("Recorrência não encontrada.", 404, "NOT_FOUND");
+    if (!recurrence) throw new AppError('Recorrência não encontrada.', 404, 'NOT_FOUND');
 
     recurrence.is_active = false;
     await RecurrenceRepository.save(recurrence);
@@ -144,17 +136,17 @@ const RecurrenceService = {
    * @param {string} userId
    */
   async _cancelFuturePendingTransactions(recurrenceId, userId) {
-    const today = new Date().toISOString().split("T")[0];
+    const today = new Date().toISOString().split('T')[0];
     await TransactionRepository.createQueryBuilder()
       .update()
-      .set({ status: "cancelled" })
-      .where("recurrence_id = :recurrenceId", { recurrenceId })
-      .andWhere("user_id = :userId", { userId })
-      .andWhere("status IN (:...statuses)", {
-        statuses: ["scheduled", "pending"],
+      .set({ status: 'cancelled' })
+      .where('recurrence_id = :recurrenceId', { recurrenceId })
+      .andWhere('user_id = :userId', { userId })
+      .andWhere('status IN (:...statuses)', {
+        statuses: ['scheduled', 'pending'],
       })
-      .andWhere("date >= :today", { today })
-      .andWhere("deleted_at IS NULL")
+      .andWhere('date >= :today', { today })
+      .andWhere('deleted_at IS NULL')
       .execute();
   },
 };
