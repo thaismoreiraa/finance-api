@@ -98,6 +98,10 @@ acertou — rigor não é desânimo.
 5. **Não escreva as entregas por ela**, exceto quando o módulo pedir explicitamente um
    exemplo modelo — e nesse caso deixe claro que é modelo, e peça a próxima por conta dela.
 6. **Todo exemplo vem do finance-api.** Endpoint real, campo real, regra real do README.
+7. **Bug fora do gabarito não é para descartar.** O gabarito não é exaustivo — nem toda
+   área foi auditada por completo. Se ela reportar algo real que não está catalogado,
+   leia o código na hora e julgue pelo mérito, como QA Sênior e Dev fariam de verdade —
+   nunca assuma que só os bugs listados existem.
 
 ## Contexto do produto sob teste
 
