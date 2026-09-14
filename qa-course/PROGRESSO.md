@@ -3,9 +3,9 @@
 > Arquivo mantido pelo `/qa-curso`. Você pode ler à vontade — e editar, se quiser
 > corrigir alguma coisa.
 
-**Ponto atual:** Sprint 0 · Módulo 00 — Ambiente e primeiro contato · não iniciado
-**Última sessão:** curso montado em 2026-09-10
-**Próximo passo:** rodar `/qa-curso` e começar o Módulo 00
+**Ponto atual:** Sprint 0 · Módulo 00 — Ambiente e primeiro contato · em andamento (bloco 1: por que importa + o que é o sistema)
+**Última sessão:** 2026-09-12 — início do Módulo 00
+**Próximo passo:** confirmar se Docker Desktop está instalado e seguir para "as peças do ambiente" (Docker → banco → migrations → API → Swagger)
 
 ---
 
@@ -13,7 +13,7 @@
 
 | # | Módulo | Status |
 | --- | --- | --- |
-| 00 | Ambiente e primeiro contato | ⬜ não iniciado |
+| 00 | Ambiente e primeiro contato | 🟨 em andamento |
 | 01 | Fundamentos de QA | ⬜ |
 | 02 | Ágil, Scrum e o QA na sprint | ⬜ |
 | 03 | Jira e Qase na prática | ⬜ |
@@ -32,7 +32,7 @@ Legenda: ⬜ não iniciado · 🟨 em andamento · ✅ concluído
 
 | Sprint | Área | Status | Bugs achados | Bugs escapados |
 | --- | --- | --- | --- | --- |
-| 0 | Setup | ⬜ | — | — |
+| 0 | Setup | 🟨 | — | — |
 | 1 | Auth + Users | ⬜ | — | — |
 | 2 | Accounts + Categories | ⬜ | | |
 | 3 | Transactions | ⬜ | | |
