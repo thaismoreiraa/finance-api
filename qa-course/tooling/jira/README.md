@@ -26,9 +26,49 @@ Site: `dfmoreira.atlassian.net` · Projeto `FIN` (id 10001, company-managed/clas
 | `03-assign-bug-workflow.js` | Associa esse workflow só ao tipo **Bug** (Story/Task/Epic continuam no workflow padrão do Scrum) |
 | `04-create-bug-fields.js` | Cria os campos custom `Severity` (lista: Crítica/Alta/Média/Baixa), `Steps to Reproduce`, `Expected Result`, `Actual Result`. `Environment` já existe como campo de sistema do Jira |
 | `05-add-fields-to-bug-screen.js` | Adiciona esses campos à tela do Bug |
+| `06-update-story-descriptions.js` | Formata a description das stories (Como/quero/para + Notas da PO + Critérios de aceite) em ADF |
+| `07-restrict-close-transition.js` | Restringe a transição para **Closed** a quem reportou o bug (regra "quem abre é quem fecha" do módulo 03) |
+| `08-move-card.js` | Move um card pra um status específico (uso ad hoc, não faz parte do setup — ver seção abaixo) |
 
 Estado de cada etapa fica salvo em `state/*.json` (gitignored — específico deste
 site).
+
+## Simulando o Marcelo (dev): `08-move-card.js`
+
+Convenção combinada com a usuária: as movimentações que, num time real, seriam
+feitas pelo dev (To Do → In Progress → In QA nas stories; New → Open →
+In Progress → Ready for Retest nos bugs) são feitas por aqui via API, quando
+a narrativa do curso indicar que o Marcelo fez algo ("começou a trabalhar",
+"entregou a build", "corrigiu o bug"). As movimentações que são da QA (In QA
+→ Done; Ready for Retest → Closed/Reopened) a usuária faz na mão, pela UI —
+são as que ela está de fato praticando.
+
+```bash
+node scripts/08-move-card.js FIN-2 "In Progress" "Marcelo começou o login."
+```
+
+O terceiro argumento (comentário) é opcional; quando informado, vira um
+comentário na issue, então fica um rastro de "por que" a movimentação
+aconteceu.
+
+**Limitação importante:** a API só tem o token da própria usuária — não existe
+uma conta separada para o "Marcelo". Todo comentário e toda movimentação feita
+por este script aparece no histórico do Jira como sendo da mesma conta
+(`thais.dfmoreira@icloud.com`), só com o texto do comentário narrando a
+persona. Não é um usuário real "Marcelo" fazendo isso — é simulação.
+
+### Pegadinha resolvida #2: "descrição da regra" não é a mesma coisa que "permissão"
+
+A transição pra Closed nasceu (script `02`) só com a description "Só QA fecha
+bug" — sem nenhuma condição de permissão de verdade, então qualquer pessoa com
+permissão padrão de mover issue conseguia fechar um bug. O script `07`
+corrige isso com uma condição `system:restrict-issue-transition` e
+`accountIds: "allow-reporter"`. A doc da OpenAPI diz que esse valor "is only
+supported in team-managed projects", mas isso parece erro de doc: o workflow
+clássico que copiamos no script `02` (`classic default workflow`, um projeto
+company-managed) já usava `allow-assignee` do mesmo jeito nativamente — e
+`allow-reporter` funcionou igual no FIN (confirmado lendo a condição de volta
+depois de aplicar).
 
 ### Pegadinha resolvida: reaproveitar status existentes
 

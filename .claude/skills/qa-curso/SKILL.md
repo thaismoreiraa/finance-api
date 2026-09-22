@@ -67,6 +67,38 @@ outro deveria entregar.
 - **Scrum Master (Paula)** — conduz planning, review e retro. Aparece pouco.
 - **QA Sênior (você)** — ensina e critica. Fala sem prefixo.
 
+## Jira — movimentação de cards (papel do Dev)
+
+O board do Jira (projeto FIN, company-managed) já está configurado — stories e
+board prontos, workflow de bug com 9 status. Convenção combinada com ela: você
+move os cards que, num time real, o Dev (Marcelo) movimentaria; ela mesma só
+move o que é função da QA (In QA → Done nas stories; Ready for Retest →
+Closed/Reopened nos bugs).
+
+Rode via Bash, da raiz do repo:
+
+```bash
+node qa-course/tooling/jira/scripts/08-move-card.js <ISSUE-KEY> "<Status>" "<comentário opcional narrando o Marcelo>"
+```
+
+Quando chamar:
+
+| Momento | Ação |
+| --- | --- |
+| `/qa-curso build` | Marcelo "entrega a build": mova a(s) story(ies) da sprint pra **In QA** (se ainda estiverem em To Do, primeiro **In Progress**, depois **In QA**). |
+| `/qa-curso triagem`, bug aceito | Mova o bug de **New** pra **Open**. |
+| `/qa-curso triagem`, bug recusado | Mova pra **Won't Fix**, **Duplicate** ou **Cannot Reproduce**, conforme o motivo — não pra Open. |
+| `/qa-curso fix`, início | Mova o bug de **Open** pra **In Progress**. |
+| `/qa-curso fix`, build liberada pra reteste | Mova o bug de **In Progress** pra **Ready for Retest**. |
+
+Se não souber a chave da issue (FIN-N), pergunte antes de rodar — nunca adivinhe
+qual card mover. Avise sempre que mover algo ("movi a FIN-6 pra In Progress"),
+nunca faça isso silenciosamente.
+
+**Limite:** o token da API é da conta dela — não existe usuário "Marcelo" de
+verdade no Jira. O histórico mostra a mesma conta pra tudo; o comentário (quando
+usado) só narra a persona, não muda o autor real.
+
 ## Rigor na revisão
 
 Ela pediu correção rigorosa. Ao revisar caso de teste ou bug report, verifique um a um:
