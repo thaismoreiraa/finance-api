@@ -23,12 +23,13 @@ Site: `dfmoreira.atlassian.net` · Projeto `FIN` (id 10001, company-managed/clas
 | `00-test-connection.js` | Valida token e mostra se o projeto já existe |
 | `01-create-project.js` | Cria o projeto `FIN` (Scrum, company-managed) |
 | `02-create-bug-workflow.js` | Cria o workflow `FIN Bug Workflow`: 9 status (New, Open, In Progress, Ready for Retest, Closed, Reopened, Won't Fix, Duplicate, Cannot Reproduce) e as 10 transições do diagrama do módulo 03 |
-| `03-assign-bug-workflow.js` | Associa esse workflow só ao tipo **Bug** (Story/Task/Epic continuam no workflow padrão do Scrum) |
+| `03-assign-bug-workflow.js` | Associa esse workflow só ao tipo **Bug** (Task/Epic continuam no workflow padrão do Scrum; Story ganha o próprio no script `09`) |
 | `04-create-bug-fields.js` | Cria os campos custom `Severity` (lista: Crítica/Alta/Média/Baixa), `Steps to Reproduce`, `Expected Result`, `Actual Result`. `Environment` já existe como campo de sistema do Jira |
 | `05-add-fields-to-bug-screen.js` | Adiciona esses campos à tela do Bug |
 | `06-update-story-descriptions.js` | Formata a description das stories (Como/quero/para + Notas da PO + Critérios de aceite) em ADF |
 | `07-restrict-close-transition.js` | Restringe a transição para **Closed** a quem reportou o bug (regra "quem abre é quem fecha" do módulo 03) |
 | `08-move-card.js` | Move um card pra um status específico (uso ad hoc, não faz parte do setup — ver seção abaixo) |
+| `09-create-story-workflow.js` | Cria o status **In QA** e o workflow `FIN Story Workflow` (To Do → In Progress → In QA → Done, com In QA → In Progress pra devolver ao dev) e associa só ao tipo **Story**. Depois, na UI, arraste o status In QA pra coluna IN QA do board (ver "Board") |
 
 Estado de cada etapa fica salvo em `state/*.json` (gitignored — específico deste
 site).
@@ -40,7 +41,7 @@ feitas pelo dev (To Do → In Progress → In QA nas stories; New → Open →
 In Progress → Ready for Retest nos bugs) são feitas por aqui via API, quando
 a narrativa do curso indicar que o Marcelo fez algo ("começou a trabalhar",
 "entregou a build", "corrigiu o bug"). As movimentações que são da QA (In QA
-→ Done; Ready for Retest → Closed/Reopened) a usuária faz na mão, pela UI —
+→ Done ou In QA → In Progress; Ready for Retest → Closed/Reopened) a usuária faz na mão, pela UI —
 são as que ela está de fato praticando.
 
 ```bash
@@ -109,7 +110,7 @@ mapeado em nenhuma coluna. Na UI: **Board → ⋯ → Board settings → Columns
 | --- | --- |
 | To Do | To Do (Story/Task), New, Open (Bug) |
 | In Progress | In Progress (Story/Task), In Progress, Reopened (Bug) |
-| In QA | Ready for Retest (Bug) |
+| In QA | In QA (Story, criado pelo script `09`), Ready for Retest (Bug) |
 | Done | Done (Story/Task), Closed, Won't Fix, Duplicate, Cannot Reproduce (Bug) |
 
 "Ready for Retest" cair sozinho na coluna "In QA" é exatamente o ponto do

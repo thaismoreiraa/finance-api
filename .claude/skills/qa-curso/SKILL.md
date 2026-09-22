@@ -70,10 +70,11 @@ outro deveria entregar.
 ## Jira — movimentação de cards (papel do Dev)
 
 O board do Jira (projeto FIN, company-managed) já está configurado — stories e
-board prontos, workflow de bug com 9 status. Convenção combinada com ela: você
+board prontos, workflow de bug com 9 status e workflow de story com etapa
+In QA (To Do → In Progress → In QA → Done). Convenção combinada com ela: você
 move os cards que, num time real, o Dev (Marcelo) movimentaria; ela mesma só
-move o que é função da QA (In QA → Done nas stories; Ready for Retest →
-Closed/Reopened nos bugs).
+move o que é função da QA (In QA → Done ou In QA → In Progress, devolvendo pro
+dev, nas stories; Ready for Retest → Closed/Reopened nos bugs).
 
 Rode via Bash, da raiz do repo:
 
@@ -85,7 +86,9 @@ Quando chamar:
 
 | Momento | Ação |
 | --- | --- |
-| `/qa-curso build` | Marcelo "entrega a build": mova a(s) story(ies) da sprint pra **In QA** (se ainda estiverem em To Do, primeiro **In Progress**, depois **In QA**). |
+| Início da sprint (Marcelo começa a desenvolver) | Mova a(s) story(ies) de **To Do** pra **In Progress**. |
+| `/qa-curso build` | Marcelo "entrega a build": mova a(s) story(ies) de **In Progress** pra **In QA** (se ainda estiverem em To Do, primeiro **In Progress**). A validação e o **Done** são dela. |
+| Story devolvida por ela (In QA → In Progress) e corrigida | Quando o Marcelo entregar a correção, mova de novo pra **In QA**. |
 | `/qa-curso triagem`, bug aceito | Mova o bug de **New** pra **Open**. |
 | `/qa-curso triagem`, bug recusado | Mova pra **Won't Fix**, **Duplicate** ou **Cannot Reproduce**, conforme o motivo — não pra Open. |
 | `/qa-curso fix`, início | Mova o bug de **Open** pra **In Progress**. |
