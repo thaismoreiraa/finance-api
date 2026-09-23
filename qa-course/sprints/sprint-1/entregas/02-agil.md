@@ -1,6 +1,6 @@
-# Refinement FIN-01
+# Módulo 02 — Ágil, Scrum e o QA na sprint
 
-## As 8 perguntas principais
+## 1. Perguntas de refinement da FIN-01
 
 ### 1. Senha segura
 **Qual é a regra exata?**
@@ -39,17 +39,11 @@
 ### 8. Concorrência
 **Se dois cadastros com o mesmo e-mail chegam ao mesmo tempo, quem vence?**
 
----
----
-
-# Daily
+## 2. Minha daily de amanhã
 
 Ontem terminei de analisar a FIN-01 e escrevi as perguntas de refinement. Hoje participo da reunião com a Renata e, depois, começo a escrever os casos de teste da FIN-01. Estou bloqueada na FIN-04 — o Marcelo ainda não identificou a causa raiz do bug que está impedindo o usuário de alterar a moeda.
 
----
----
-
-# INVEST FIN-01
+## 3. INVEST da FIN-01
 
 | Letra | Critério | Atende? | Justificativa |
 |:-----:|----------|:-------:|---------------|

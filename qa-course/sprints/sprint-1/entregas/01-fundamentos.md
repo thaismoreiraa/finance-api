@@ -1,27 +1,6 @@
-# Perguntas
+# Módulo 01 — Fundamentos de QA
 
-**1.** Com suas palavras, três a cinco linhas: o que é QA e qual a diferença para testing, usando um exemplo do finance-api. Essa é a resposta que você daria numa entrevista de verdade — escreva como se estivesse falando.
-
-**2.** Classifique cada situação em erro, defeito ou falha:
-  - a. O saldo da conta ficou R$ 200 menor do que a soma das transações.
-  - b. A dev esqueceu que transferência tem duas pernas.
-  - c. A função de exclusão não trata `transfer_pair_id`.
-
-# Respostas
-
-**1.** QA na minha visão, significa garantir que o processo tenha qualidade, desde o começo, durante e ao fim, além de questionamentos com perguntas para tentar garantir que construímos um produto consistente, também define e revisa processos e boas práticas de desenvolvimento e garante uma cultura de qualidade com o time todo. Por exemplo, no refinement de uma story de categorias, eu pergunto pra PO "o que deve acontecer se o usuário tentar excluir uma categoria que já tem transações vinculadas a ela?" antes mesmo de existir uma linha de código.
-
-Testing é garantir e verificar que está tudo ocorrendo certo seguindo a user story e regra do negócio. Nesse mesmo exemplo, depois que a funcionalidade existe, eu mando um `DELETE /categories/{id}` com esses dados e confiro se a resposta bate com o que a regra de negócio diz que devia acontecer.
-
-**2.**
-  - a. failure
-  - b. error
-  - c. defect
-
----
----
-
-# Checklist de Cobertura de Testes — Transações
+## 1. Leitura dos testes do dev — `TransactionService.test.js`
 
 ### 1. Toda transação deve ter: `account_id`, `type`, `amount`, `date`
  
@@ -60,7 +39,7 @@ Testing é garantir e verificar que está tudo ocorrendo certo seguindo a user s
 | Cenário | Coberto | Não vi teste para isso |
 |---|---|---|
 | deve marcar transação como scheduled quando data é futura | | X |
-Não deve marcar a transação como scheduled quando a date é o dia atual | | X |
+| Não deve marcar a transação como scheduled quando a date é o dia atual | | X |
  
 ### 5. Transações confirmadas (`status = confirmed`) atualizam o `balance` da conta imediatamente
  
@@ -96,11 +75,8 @@ Não deve marcar a transação como scheduled quando a date é o dia atual | | X
 | Deve gerar um registro em `audit_logs` após a edição de uma transação | | X |
 | Deve gerar um registro em `audit_logs` após a exclusão de uma transação | | X |
 
----
----
+### Perguntas sobre as regras de negócio
 
-### Perguntas sobre as Regras de Negócio
- 
 - #### 4. Transações com data futura devem ter `status = scheduled` automaticamente
   - **1.** Quais são os critérios para considerar que uma transação tem data futura?
 - #### 6. Ao editar uma transação, o saldo da conta deve ser recalculado
@@ -111,15 +87,24 @@ Não deve marcar a transação como scheduled quando a date é o dia atual | | X
   - **1.** Em quais status uma transação pode ser excluída?
   - **2.** O que deve acontecer ao excluir uma transferência já concluída, já que ela tem duas transações espelhadas (entrada e saída)?
 
----
----
+## 2. O que é QA e qual a diferença para testing
 
-### Sanity × Regressão
+QA na minha visão, significa garantir que o processo tenha qualidade, desde o começo, durante e ao fim, além de questionamentos com perguntas para tentar garantir que construímos um produto consistente, também define e revisa processos e boas práticas de desenvolvimento e garante uma cultura de qualidade com o time todo. Por exemplo, no refinement de uma story de categorias, eu pergunto pra PO "o que deve acontecer se o usuário tentar excluir uma categoria que já tem transações vinculadas a ela?" antes mesmo de existir uma linha de código.
+
+Testing é garantir e verificar que está tudo ocorrendo certo seguindo a user story e regra do negócio. Nesse mesmo exemplo, depois que a funcionalidade existe, eu mando um `DELETE /categories/{id}` com esses dados e confiro se a resposta bate com o que a regra de negócio diz que devia acontecer.
+
+## 3. Erro, defeito ou falha
+
+- a. O saldo da conta ficou R$ 200 menor do que a soma das transações — failure
+- b. A dev esqueceu que transferência tem duas pernas — error
+- c. A função de exclusão não trata `transfer_pair_id` — defect
+
+## 4. Sanity × regressão
 
 **Sanity** indica que "é possível seguir em frente" com o que foi corrigido. 
 **Regressão** indica que "nada mais foi quebrado" no restante do sistema. 
 
-#### Exemplos
+### Exemplos
 
 **Sanity**
 
@@ -134,5 +119,3 @@ Não deve marcar a transação como scheduled quando a date é o dia atual | | X
   - `usage_percent` — percentual de uso atualizado
 
   Esses valores devem refletir corretamente a edição da transação já validada na etapa de Sanity.
- 
-
