@@ -3,9 +3,9 @@
 > Arquivo mantido pelo `/qa-curso`. Você pode ler à vontade — e editar, se quiser
 > corrigir alguma coisa.
 
-**Ponto atual:** Sprint 1 · Módulo 04 🟨 em andamento — bloco 1 de 5 ✅ concluído (anatomia de request/response, métodos, idempotência)
-**Última sessão:** 2026-09-25 — `04-postman/01-anatomia.md` aceita na 2ª rodada: fonte do token no Swagger (cadeado), campos obrigatórios × opcionais (inclusive a nuance do PATCH com body obrigatório e campos todos opcionais), tokens mascarados e resultado esperado derivado dos critérios de aceite em vez do texto do Zod.
-**Próximo passo:** commitar a pasta `04-postman/`; depois `/qa-curso modulo 4` → bloco 2 (status codes + JWT).
+**Ponto atual:** Sprint 1 · Módulo 04 🟨 em andamento — bloco 2 de 5 ✅ concluído (status codes + JWT)
+**Última sessão:** 2026-09-29 — `02-status-jwt.md` aceita na 3ª rodada. As dúvidas #2 a #4 foram escritas e a Renata respondeu todas: refresh reutilizável até vencer, login com resposta idêntica, `total_balance` só com contas ativas e contando saldo negativo.
+**Próximo passo:** acrescentar a coluna "Resposta da PO" na tabela 4 → commit → `/qa-curso modulo 4`, bloco 3 (Postman: environment, collection, login que salva o token). Instalar o Postman antes.
 
 **Plano do Módulo 04 (≈5h, 5 blocos):** 1) API, anatomia, métodos · 2) status codes + JWT · 3) Postman: environment, collection, login que salva token · 4) assertions + as 8 requisições · 5) Collection Runner, export, commit, IA e vocabulário
 
@@ -19,7 +19,7 @@
 | 01 | Fundamentos de QA | ✅ |
 | 02 | Ágil, Scrum e o QA na sprint | ✅ |
 | 03 | Jira e Qase na prática | ✅ |
-| 04 | API REST e Postman do zero | 🟨 bloco 2/5 |
+| 04 | API REST e Postman do zero | 🟨 bloco 3/5 |
 | 05 | Técnicas de teste | ⬜ |
 | 06 | Casos de teste e critérios de aceite | ⬜ |
 | 07 | SQL para QA | ⬜ |
@@ -67,6 +67,24 @@ Legenda: ⬜ não iniciado · 🟨 em andamento · ✅ concluído
 | `sprints/sprint-1/entregas/02-agil.md` | 1 | 2026-09-21 | aceito após 2 rodadas de ajuste — perguntas de refinement fortes desde a 1ª versão (concorrência espontânea, critério pra pular itens do checklist que não se aplicam); INVEST 1ª versão tinha contradição entre E (❌, faltam informações) e T (✅, "com base nos critérios de aceite" que nem existiam ainda) e V só reescrevia o "quero" em vez do "para" — corrigido na 2ª rodada; daily 1ª versão tinha impedimento vago e sem rastreio de story, 2ª rodada copiou meu modelo literalmente (pedi pra não copiar), 3ª versão trouxe cenário e impedimento originais (bug sem causa raiz identificada, troca de moeda no perfil) |
 | `sprints/sprint-1/entregas/03-jira.md` | 1 | 2026-09-22 | aceito após 1 rodada de ajuste — board (5 stories na sprint) e árvore de suítes do Qase completos de primeira, workflow do bug com os 9 estados corretos e bônus espontâneo (mapeamento status→coluna do board); faltava evidência da condição `restrict-issue-transition` (só relatada verbalmente) e o parágrafo de dificuldade veio vago — 2ª rodada trouxe o print da condição e reescreveu o parágrafo com relato técnico concreto (erro 400 de status duplicado, uso da API pra referenciar por ID) |
 | `sprints/sprint-1/entregas/04-postman/01-anatomia.md` | 1 | 2026-09-24 | 1ª rodada: ajustar — Parte B (idempotência) muito boa, com nuance espontânea de DELETE 204→404 e cenário criativo de POST inválido repetido; faltou dizer onde o Swagger indica token, marcar campos obrigatórios, mascarar tokens, e o resultado esperado do cenário copiou a mensagem exata do Zod em vez de derivar do critério de aceite. **2ª rodada (2026-09-25): aceito** — todos os 4 corrigidos; o esperado reescrito ficou melhor que o pedido (checa ausência de token e da senha no body, amarrando ao critério "senha nunca aparece em resposta") |
+| `sprints/sprint-1/entregas/04-postman/02-status-jwt.md` | 1 | 2026-09-29 | 1ª rodada: ajustar — Parte A e fronteiras 401×403 / 400×422 / 409×422 muito boas; achou sozinha a divergência register × critério de aceite da FIN-01. Problemas: esperado da Parte B copiado da execução (ids e timestamps reais) e com fonte declarada diferente da real; cenários pedidos ausentes (e-mail inexistente, register inválido com contagem de `details`, 2 cenários próprios, coluna `code`); previsões de refresh sem fonte e contra o Swagger; ferramenta de decodificação não informada. **2ª rodada (2026-09-29):** os 5 pontos foram corrigidos e o conteúdo está aprovado; falta completar a tabela 4 (dúvidas #2 a #4 citadas mas não escritas). **3ª rodada (2026-09-29): ajustar** — resposta da Renata à #1 registrada na tabela 4 (coluna nova); #2 a #4 seguem sem ser escritas, então a Renata ainda não tem o que responder |
+
+## Decisões da PO (valem como critério até a story ser refinada)
+
+| Data | Story | Decisão (Renata) |
+| --- | --- | --- |
+| 2026-09-29 | FIN-01 | A resposta do cadastro deve trazer os dados do usuário (id, nome, e-mail) além dos tokens. O critério de aceite prevalece sobre o Swagger. |
+| 2026-09-29 | FIN-03 | O refresh token pode ser reutilizado até vencer (7 dias). A rotação a cada uso vai para o backlog. O access token já emitido continua valendo até vencer. |
+| 2026-09-29 | FIN-02 | Login com senha errada e com e-mail inexistente devem ter resposta idêntica (status, `code` e `message`). O 409 do cadastro, que revela e-mail existente, é um risco aceito. |
+| 2026-09-29 | (Sprint 2) contas | `total_balance` soma só as contas ativas e não excluídas. Saldo negativo entra subtraindo. |
+
+## Achados pendentes de bug report
+
+*(o report formal entra no Jira depois do Módulo 08)*
+
+| # | Achado | Onde | Origem | Status |
+| --- | --- | --- | --- | --- |
+| 1 | `POST /auth/register` responde só com os tokens, mas o critério de aceite da FIN-01 pede também os dados do usuário (id, nome, e-mail) | `POST /v1/auth/register` | `02-status-jwt.md`, dúvida para a PO; Renata confirmou em 2026-09-29 que o critério vale | aguardando report |
 
 ## Anotações da retrospectiva
 
