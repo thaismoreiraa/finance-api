@@ -20,12 +20,18 @@
                   "const email = `qa${Date.now()}@teste.com`;\npm.collectionVariables.set(\"email\", email);"
                 ]
               }
+            },
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\n\n// ==================== STATUS ====================\npm.test(\"[#1 · Swagger] Status | Deve retornar 201 Created\", () => {\n  pm.response.to.have.status(201);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#1 · Swagger LoginResponse] Campos obrigatórios | Deve conter access_token, refresh_token, token_type e expires_in\", () => {\n  pm.expect(body).to.have.property(\"access_token\");\n  pm.expect(body).to.have.property(\"refresh_token\");\n  pm.expect(body).to.have.property(\"token_type\");\n  pm.expect(body).to.have.property(\"expires_in\");\n});\n\npm.test(\"[#1 · FIN-01 + Renata #1] Campos obrigatórios | Deve conter id, name e email do usuário criado\", () => {\n  pm.expect(body).to.have.property(\"id\");\n  pm.expect(body).to.have.property(\"name\");\n  pm.expect(body).to.have.property(\"email\");\n});\n\npm.test(\"[#1 · FIN-01] Ausência | Não deve conter senha ou hash\", () => {\n  const camposSensiveis = Object.keys(body).filter((campo) => /pass|senha|hash/i.test(campo));\n  pm.expect(camposSensiveis).to.be.empty;\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#1 · Swagger LoginResponse] Tipo de dado | access_token, refresh_token e token_type devem ser string\", () => {\n  pm.expect(body.access_token).to.be.a(\"string\");\n  pm.expect(body.refresh_token).to.be.a(\"string\");\n  pm.expect(body.token_type).to.be.a(\"string\");\n});\n\npm.test(\"[#1 · Swagger LoginResponse] Tipo de dado | expires_in deve ser integer\", () => {\n  pm.expect(Number.isInteger(body.expires_in)).to.be.true;\n});\n\npm.test(\"[#1 · Swagger UserResponse] Tipo de dado | id, name e email devem ser string\", () => {\n  pm.expect(body.id).to.be.a(\"string\");\n  pm.expect(body.name).to.be.a(\"string\");\n  pm.expect(body.email).to.be.a(\"string\");\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#1 · Swagger] Valor esperado | access_token e refresh_token não devem ser vazios\", () => {\n  pm.expect(body.access_token).to.not.be.empty;\n  pm.expect(body.refresh_token).to.not.be.empty;\n});\n\npm.test(\"[#1 · Swagger] Valor esperado | token_type deve ser 'Bearer'\", () => {\n  pm.expect(body.token_type).to.eql(\"Bearer\");\n});\n\npm.test(\"[#1 · Swagger + aula] Valor esperado | expires_in deve ser 3600 (1 hora)\", () => {\n  pm.expect(body.expires_in).to.eql(3600);\n});\n\npm.test(\"[#1 · FIN-01] Valor esperado | email deve ser o enviado no cadastro\", () => {\n  pm.expect(body.email).to.eql(pm.collectionVariables.get(\"email\"));\n});"
+                ]
+              }
             }
           ],
           "request": {
-            "auth": {
-              "type": "noauth"
-            },
             "method": "POST",
             "header": [],
             "body": {
@@ -46,6 +52,91 @@
                 "auth",
                 "register"
               ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - e-mail repetido",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\n\n// ==================== STATUS ====================\npm.test(\"[#2 · Swagger] Status | Deve retornar 409 Conflict\", () => {\n  pm.response.to.have.status(409);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#2 · Swagger Error] Campos obrigatórios | Deve conter code e message\", () => {\n  pm.expect(body).to.have.property(\"code\");\n  pm.expect(body).to.have.property(\"message\");\n});\n\npm.test(\"[#2] Ausência | Não deve retornar tokens nem dados do usuário\", () => {\n  pm.expect(body).to.not.have.property(\"access_token\");\n  pm.expect(body).to.not.have.property(\"refresh_token\");\n  pm.expect(body).to.not.have.property(\"id\");\n  pm.expect(body).to.not.have.property(\"name\");\n  pm.expect(body).to.not.have.property(\"email\");\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#2 · Swagger Error] Tipo de dado | code e message devem ser string\", () => {\n  pm.expect(body.code).to.be.a(\"string\");\n  pm.expect(body.message).to.be.a(\"string\");\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#2 · suposição] Valor esperado | code deve ser 'CONFLICT'\", () => {\n  pm.expect(body.code).to.eql(\"CONFLICT\");\n});\n\npm.test(\"[#2 · FIN-01 + Swagger] Valor esperado | message deve deixar claro que o e-mail já está em uso\", () => {\n  pm.expect(body.message).to.not.be.empty;\n  pm.expect(body.message).to.match(/e-?mail/i);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{$randomUserName}}\",\n    \"email\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"currency\": \"BRL\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register - e-mail inválido e sem senha",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\n\n// ==================== STATUS ====================\npm.test(\"[#7 · Swagger] Status | Deve retornar 400 Bad Request\", () => {\n  pm.response.to.have.status(400);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#7 · Swagger ValidationError] Campos obrigatórios | Deve conter code, message e details\", () => {\n  pm.expect(body).to.have.property(\"code\");\n  pm.expect(body).to.have.property(\"message\");\n  pm.expect(body).to.have.property(\"details\");\n});\n\npm.test(\"[#7] Ausência | Não deve retornar tokens\", () => {\n  pm.expect(body).to.not.have.property(\"access_token\");\n  pm.expect(body).to.not.have.property(\"refresh_token\");\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#7 · Swagger Error] Tipo de dado | code e message devem ser string\", () => {\n  pm.expect(body.code).to.be.a(\"string\");\n  pm.expect(body.message).to.be.a(\"string\");\n});\n\npm.test(\"[#7 · Swagger Error] Tipo de dado | details deve ser array\", () => {\n  pm.expect(body.details).to.be.an(\"array\");\n});\n\npm.test(\"[#7 · Swagger Error] Tipo de dado | field e message de cada item devem ser string\", () => {\n  body.details.forEach((detail) => {\n    pm.expect(detail.field).to.be.a(\"string\");\n    pm.expect(detail.message).to.be.a(\"string\");\n  });\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#7 · suposição] Valor esperado | code deve ser 'VALIDATION_ERROR'\", () => {\n  pm.expect(body.code).to.eql(\"VALIDATION_ERROR\");\n});\n\npm.test(\"[#7] Valor esperado | message não deve ser vazia\", () => {\n  pm.expect(body.message).to.not.be.empty;\n});\n\npm.test(\"[#7 · FIN-01] Valor esperado | details deve ter 2 itens, um para email e um para password\", () => {\n  pm.expect(body.details).to.have.lengthOf(2);\n  const campos = body.details.map((detail) => detail.field).sort();\n  pm.expect(campos).to.eql([\"email\", \"password\"]);\n});\n\npm.test(\"[#7 · FIN-01] Valor esperado | cada item deve ter a sua própria mensagem\", () => {\n  body.details.forEach((detail) => {\n    pm.expect(detail.message).to.not.be.empty;\n  });\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"{{$randomUserName}}\",\n    \"email\": \"abc\",\n    \"currency\": \"BRL\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/register",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "register"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
             }
           },
           "response": []
@@ -58,7 +149,7 @@
               "script": {
                 "type": "text/javascript",
                 "exec": [
-                  "if (pm.response.code === 200) {\n    const body = pm.response.json();\n    pm.environment.set(\"token\", body.access_token);\n    pm.environment.set(\"refresh_token\", body.refresh_token);\n}"
+                  "const body = pm.response.json();\n\n// ==================== STATUS ====================\npm.test(\"[#3 · Swagger] Status | Deve retornar 200 OK\", () => {\n  pm.response.to.have.status(200);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#3 · Swagger LoginResponse] Campos obrigatórios | Deve conter access_token, refresh_token, token_type e expires_in\", () => {\n  pm.expect(body).to.have.property(\"access_token\");\n  pm.expect(body).to.have.property(\"refresh_token\");\n  pm.expect(body).to.have.property(\"token_type\");\n  pm.expect(body).to.have.property(\"expires_in\");\n});\n\npm.test(\"[#3 · FIN-01] Ausência | Não deve conter senha ou hash\", () => {\n  const camposSensiveis = Object.keys(body).filter((campo) => /pass|senha|hash/i.test(campo));\n  pm.expect(camposSensiveis).to.be.empty;\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#3 · Swagger LoginResponse] Tipo de dado | access_token, refresh_token e token_type devem ser string\", () => {\n  pm.expect(body.access_token).to.be.a(\"string\");\n  pm.expect(body.refresh_token).to.be.a(\"string\");\n  pm.expect(body.token_type).to.be.a(\"string\");\n});\n\npm.test(\"[#3 · Swagger LoginResponse] Tipo de dado | expires_in deve ser integer\", () => {\n  pm.expect(Number.isInteger(body.expires_in)).to.be.true;\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#3 · Swagger] Valor esperado | access_token e refresh_token não devem ser vazios\", () => {\n  pm.expect(body.access_token).to.not.be.empty;\n  pm.expect(body.refresh_token).to.not.be.empty;\n});\n\npm.test(\"[#3 · Swagger] Valor esperado | token_type deve ser 'Bearer'\", () => {\n  pm.expect(body.token_type).to.eql(\"Bearer\");\n});\n\npm.test(\"[#3 · Swagger + aula] Valor esperado | expires_in deve ser 3600 (1 hora)\", () => {\n  pm.expect(body.expires_in).to.eql(3600);\n});\n\n// ============ VARIÁVEIS DE AMBIENTE ============\nif (pm.response.code === 200 && body.access_token && body.refresh_token) {\n  pm.environment.set(\"token\", body.access_token);\n  pm.environment.set(\"refresh_token\", body.refresh_token);\n} else {\n  pm.environment.unset(\"token\");\n  pm.environment.unset(\"refresh_token\");\n}"
                 ]
               }
             }
@@ -90,6 +181,88 @@
             }
           },
           "response": []
+        },
+        {
+          "name": "Login - senha errada",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\n\n// ==================== STATUS ====================\npm.test(\"[#4 · Swagger] Status | Deve retornar 401 Unauthorized\", () => {\n  pm.response.to.have.status(401);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#4 · Swagger Error] Campos obrigatórios | Deve conter code e message\", () => {\n  pm.expect(body).to.have.property(\"code\");\n  pm.expect(body).to.have.property(\"message\");\n});\n\npm.test(\"[#4] Ausência | Não deve retornar tokens\", () => {\n  pm.expect(body).to.not.have.property(\"access_token\");\n  pm.expect(body).to.not.have.property(\"refresh_token\");\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#4 · Swagger Error] Tipo de dado | code e message devem ser string\", () => {\n  pm.expect(body.code).to.be.a(\"string\");\n  pm.expect(body.message).to.be.a(\"string\");\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#4 · suposição, exemplo do Swagger] Valor esperado | code deve ser 'UNAUTHORIZED'\", () => {\n  pm.expect(body.code).to.eql(\"UNAUTHORIZED\");\n});\n\npm.test(\"[#4 · Renata #3] Valor esperado | message não deve dizer qual campo estava errado\", () => {\n  pm.expect(body.message).to.not.be.empty;\n  pm.expect(body.message).to.not.match(/senha|e-?mail|password/i);\n});\n\n// ====== GUARDA PARA COMPARAR COM O CENÁRIO #5 ======\npm.collectionVariables.set(\"login_error_status\", pm.response.code);\npm.collectionVariables.set(\"login_error_code\", body.code);\npm.collectionVariables.set(\"login_error_message\", body.message);"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"{{email}}\",\n    \"password\": \"invalid-password\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Login - e-mail inexistente",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\n\n// ==================== STATUS ====================\npm.test(\"[#5 · Swagger] Status | Deve retornar 401 Unauthorized\", () => {\n  pm.response.to.have.status(401);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#5 · Swagger Error] Campos obrigatórios | Deve conter code e message\", () => {\n  pm.expect(body).to.have.property(\"code\");\n  pm.expect(body).to.have.property(\"message\");\n});\n\npm.test(\"[#5] Ausência | Não deve retornar tokens\", () => {\n  pm.expect(body).to.not.have.property(\"access_token\");\n  pm.expect(body).to.not.have.property(\"refresh_token\");\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#5 · Swagger Error] Tipo de dado | code e message devem ser string\", () => {\n  pm.expect(body.code).to.be.a(\"string\");\n  pm.expect(body.message).to.be.a(\"string\");\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#5 · Renata #3] Valor esperado | status deve ser igual ao do login com senha errada\", () => {\n  pm.expect(pm.response.code).to.eql(Number(pm.collectionVariables.get(\"login_error_status\")));\n});\n\npm.test(\"[#5 · Renata #3] Valor esperado | code deve ser igual ao do login com senha errada\", () => {\n  pm.expect(body.code).to.eql(pm.collectionVariables.get(\"login_error_code\"));\n});\n\npm.test(\"[#5 · Renata #3] Valor esperado | message deve ser igual à do login com senha errada\", () => {\n  pm.expect(body.message).to.eql(pm.collectionVariables.get(\"login_error_message\"));\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"email\": \"thais@qa.test.com\",\n    \"password\": \"{{password}}\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/auth/login",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "auth",
+                "login"
+              ]
+            },
+            "auth": {
+              "type": "noauth"
+            }
+          },
+          "response": []
         }
       ]
     },
@@ -98,6 +271,17 @@
       "item": [
         {
           "name": "Get me - com token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\n\n// ==================== STATUS ====================\npm.test(\"[#6 · Swagger] Status | Deve retornar 200 OK\", () => {\n  pm.response.to.have.status(200);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#6 · Swagger UserResponse] Campos obrigatórios | Deve conter id, name, email, currency e created_at\", () => {\n  pm.expect(body).to.have.property(\"id\");\n  pm.expect(body).to.have.property(\"name\");\n  pm.expect(body).to.have.property(\"email\");\n  pm.expect(body).to.have.property(\"currency\");\n  pm.expect(body).to.have.property(\"created_at\");\n});\n\npm.test(\"[#6 · FIN-01] Ausência | Não deve conter senha ou hash\", () => {\n  const camposSensiveis = Object.keys(body).filter((campo) => /pass|senha|hash/i.test(campo));\n  pm.expect(camposSensiveis).to.be.empty;\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#6 · Swagger UserResponse] Tipo de dado | id, name, email, currency e created_at devem ser string\", () => {\n  pm.expect(body.id).to.be.a(\"string\");\n  pm.expect(body.name).to.be.a(\"string\");\n  pm.expect(body.email).to.be.a(\"string\");\n  pm.expect(body.currency).to.be.a(\"string\");\n  pm.expect(body.created_at).to.be.a(\"string\");\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#6 · Parte A] Valor esperado | id deve ser igual ao sub do token\", () => {\n  const token = pm.environment.get(\"token\");\n  let payload = token.split(\".\")[1].replace(/-/g, \"+\").replace(/_/g, \"/\");\n  payload += \"=\".repeat((4 - (payload.length % 4)) % 4);\n  const sub = JSON.parse(atob(payload)).sub;\n  pm.expect(body.id).to.eql(sub);\n});"
+                ]
+              }
+            }
+          ],
           "request": {
             "method": "GET",
             "header": [],
@@ -116,6 +300,17 @@
         },
         {
           "name": "Get me - sem token",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\n\n// ==================== STATUS ====================\npm.test(\"[#8 · Swagger + aula] Status | Deve retornar 401 Unauthorized\", () => {\n  pm.response.to.have.status(401);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#8 · Swagger Error] Campos obrigatórios | Deve conter code e message\", () => {\n  pm.expect(body).to.have.property(\"code\");\n  pm.expect(body).to.have.property(\"message\");\n});\n\npm.test(\"[#8] Ausência | Não deve retornar dados do usuário\", () => {\n  pm.expect(body).to.not.have.property(\"id\");\n  pm.expect(body).to.not.have.property(\"name\");\n  pm.expect(body).to.not.have.property(\"email\");\n  pm.expect(body).to.not.have.property(\"currency\");\n  pm.expect(body).to.not.have.property(\"created_at\");\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#8 · Swagger Error] Tipo de dado | code e message devem ser string\", () => {\n  pm.expect(body.code).to.be.a(\"string\");\n  pm.expect(body.message).to.be.a(\"string\");\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#8 · suposição, exemplo do Swagger] Valor esperado | code deve ser 'UNAUTHORIZED'\", () => {\n  pm.expect(body.code).to.eql(\"UNAUTHORIZED\");\n});\n\npm.test(\"[#8] Valor esperado | message não deve ser vazia\", () => {\n  pm.expect(body.message).to.not.be.empty;\n});"
+                ]
+              }
+            }
+          ],
           "request": {
             "auth": {
               "type": "noauth"
@@ -139,7 +334,73 @@
     },
     {
       "name": "Accounts",
-      "item": []
+      "item": [
+        {
+          "name": "Create account - saldo inicial 500",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\nconst requestBody = JSON.parse(pm.variables.replaceIn(pm.request.body.raw));\nconst uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;\n\n// ==================== STATUS ====================\npm.test(\"[#11 · Swagger] Status | Deve retornar 201 Created\", () => {\n  pm.response.to.have.status(201);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#11 · Swagger AccountResponse] Campos obrigatórios | Deve conter todos os campos do contrato\", () => {\n  [\"id\", \"name\", \"type\", \"balance\", \"currency\", \"color\", \"icon\", \"allow_negative\", \"is_active\", \"created_at\"]\n    .forEach((campo) => pm.expect(body, campo).to.have.property(campo));\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#11 · Swagger AccountResponse] Tipo de dado | id, name, type, currency, color, icon e created_at devem ser string\", () => {\n  pm.expect(body.id).to.be.a(\"string\");\n  pm.expect(body.name).to.be.a(\"string\");\n  pm.expect(body.type).to.be.a(\"string\");\n  pm.expect(body.currency).to.be.a(\"string\");\n  pm.expect(body.color).to.be.a(\"string\");\n  pm.expect(body.icon).to.be.a(\"string\");\n  pm.expect(body.created_at).to.be.a(\"string\");\n});\n\npm.test(\"[#11 · Swagger Money] Tipo de dado | balance deve ser number\", () => {\n  pm.expect(body.balance).to.be.a(\"number\");\n});\n\npm.test(\"[#11 · Swagger AccountResponse] Tipo de dado | allow_negative e is_active devem ser boolean\", () => {\n  pm.expect(body.allow_negative).to.be.a(\"boolean\");\n  pm.expect(body.is_active).to.be.a(\"boolean\");\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#11 · Swagger UUID] Valor esperado | id deve ser um UUID\", () => {\n  pm.expect(body.id).to.match(uuidRegex);\n});\n\npm.test(\"[#11 · Swagger] Valor esperado | name, type, currency, color e icon iguais aos enviados\", () => {\n  pm.expect(body.name).to.eql(requestBody.name);\n  pm.expect(body.type).to.eql(requestBody.type);\n  pm.expect(body.currency).to.eql(requestBody.currency);\n  pm.expect(body.color).to.eql(requestBody.color);\n  pm.expect(body.icon).to.eql(requestBody.icon);\n});\n\npm.test(\"[#11 · suposição] Valor esperado | balance deve ser igual ao initial_balance (500)\", () => {\n  pm.expect(body.balance).to.eql(requestBody.initial_balance);\n});\n\npm.test(\"[#11 · Swagger] Valor esperado | allow_negative igual ao enviado\", () => {\n  pm.expect(body.allow_negative).to.eql(requestBody.allow_negative);\n});\n\npm.test(\"[#11 · suposição] Valor esperado | is_active deve ser true\", () => {\n  pm.expect(body.is_active).to.eql(true);\n});\n\npm.test(\"[#11] Valor esperado | created_at deve estar preenchido\", () => {\n  pm.expect(body.created_at).to.not.be.empty;\n});\n\n// ============ VARIÁVEIS DA COLLECTION ============\nif (pm.response.code === 201 && body.id) {\n  pm.collectionVariables.set(\"account_id\", body.id);\n}"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"name\": \"Nubank\",\n    \"type\": \"checking\",\n    \"initial_balance\": 500,\n    \"currency\": \"BRL\",\n    \"color\": \"#8A05BE\",\n    \"icon\": \"credit-card\",\n    \"allow_negative\": false\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/accounts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "accounts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "List accounts",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "const body = pm.response.json();\nconst accounts = body.data;\n\n// ==================== STATUS ====================\npm.test(\"[#12 · Swagger] Status | Deve retornar 200 OK\", () => {\n  pm.response.to.have.status(200);\n});\n\n// ============== CAMPOS OBRIGATÓRIOS ==============\npm.test(\"[#12 · Swagger] Campos obrigatórios | Resposta deve conter data e total_balance\", () => {\n  pm.expect(body).to.have.property(\"data\");\n  pm.expect(body).to.have.property(\"total_balance\");\n});\n\npm.test(\"[#12 · Swagger AccountResponse] Campos obrigatórios | Cada conta deve conter todos os campos do contrato\", () => {\n  accounts.forEach((account, i) => {\n    [\"id\", \"name\", \"type\", \"balance\", \"currency\", \"color\", \"icon\", \"allow_negative\", \"is_active\", \"created_at\"]\n      .forEach((campo) => pm.expect(account, `conta[${i}].${campo}`).to.have.property(campo));\n  });\n});\n\n// ================ TIPOS DE DADOS ================\npm.test(\"[#12 · Swagger] Tipo de dado | data deve ser array\", () => {\n  pm.expect(accounts).to.be.an(\"array\");\n});\n\npm.test(\"[#12 · Swagger Money] Tipo de dado | total_balance deve ser number\", () => {\n  pm.expect(body.total_balance).to.be.a(\"number\");\n});\n\npm.test(\"[#12 · Swagger AccountResponse] Tipo de dado | campos de cada conta devem ser do tipo correto\", () => {\n  accounts.forEach((account, i) => {\n    pm.expect(account.id, `conta[${i}].id`).to.be.a(\"string\");\n    pm.expect(account.name, `conta[${i}].name`).to.be.a(\"string\");\n    pm.expect(account.type, `conta[${i}].type`).to.be.a(\"string\");\n    pm.expect(account.balance, `conta[${i}].balance`).to.be.a(\"number\");\n    pm.expect(account.currency, `conta[${i}].currency`).to.be.a(\"string\");\n    pm.expect(account.color, `conta[${i}].color`).to.be.a(\"string\");\n    pm.expect(account.icon, `conta[${i}].icon`).to.be.a(\"string\");\n    pm.expect(account.allow_negative, `conta[${i}].allow_negative`).to.be.a(\"boolean\");\n    pm.expect(account.is_active, `conta[${i}].is_active`).to.be.a(\"boolean\");\n    pm.expect(account.created_at, `conta[${i}].created_at`).to.be.a(\"string\");\n  });\n});\n\n// ============== VALORES ESPERADOS ==============\npm.test(\"[#12] Valor esperado | lista deve incluir a conta criada no #11\", () => {\n  const ids = accounts.map((account) => account.id);\n  pm.expect(ids).to.include(pm.collectionVariables.get(\"account_id\"));\n});\n\npm.test(\"[#12 · Renata #4] Valor esperado | conta desativada não deve aparecer na lista\", () => {\n  accounts.forEach((account, i) => {\n    pm.expect(account.is_active, `conta[${i}]`).to.eql(true);\n  });\n});\n\npm.test(\"[#12 · Renata #4] Valor esperado | total_balance deve ser a soma dos balance de data (negativos subtraem)\", () => {\n  const somaEmCentavos = accounts.reduce(\n    (soma, conta) => soma + Math.round(Number(conta.balance) * 100),\n    0\n  );\n  pm.expect(Math.round(body.total_balance * 100)).to.eql(somaEmCentavos);\n});"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url}}/accounts",
+              "host": [
+                "{{base_url}}"
+              ],
+              "path": [
+                "accounts"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
     },
     {
       "name": "Categories",
@@ -180,6 +441,22 @@
     {
       "key": "password",
       "value": "senhaSecreta"
+    },
+    {
+      "key": "login_error_status",
+      "value": ""
+    },
+    {
+      "key": "login_error_code",
+      "value": ""
+    },
+    {
+      "key": "login_error_message",
+      "value": ""
+    },
+    {
+      "key": "account_id",
+      "value": ""
     }
   ]
 }

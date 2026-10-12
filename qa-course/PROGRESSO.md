@@ -3,9 +3,9 @@
 > Arquivo mantido pelo `/qa-curso`. Você pode ler à vontade — e editar, se quiser
 > corrigir alguma coisa.
 
-**Ponto atual:** Sprint 1 · Módulo 04 🟨 em andamento — bloco 3 de 5 ✅ concluído (Postman: environment, collection, auth herdada, login que salva token)
-**Última sessão:** 2026-10-01 — bloco 3 aceito na 2ª rodada: o export roda para quem importa (segredo × configuração × gerado), o cenário 1 foi marcado como divergente pelo body e o documento ficou coerente consigo mesmo. A coluna "Resposta Renata (PO)" do bloco 2 existia desde o commit 12b2e7a; as cobranças anteriores foram um erro do instrutor.
-**Próximo passo:** commit do bloco 3 → `/qa-curso modulo 4`, bloco 4 (assertions). 
+**Ponto atual:** Sprint 1 · Módulo 04 🟨 em andamento — bloco 4 de 5 ✅ concluído (assertions)
+**Última sessão:** 2026-10-12 — bloco 4 aceito na 2ª rodada: regressões da collection desfeitas (com `git diff` contra o bloco 3 no checklist), mutação de ausência provada, assertion de texto exato removida, tabelas escapadas, `unset` no login justificado e `account_id` movido para a collection. (Em 2026-10-05: refinement das FIN-02 a FIN-05, critérios em `stories.md`.)
+**Próximo passo:** 2 commits (refinement 05/10 e bloco 4) → `/qa-curso modulo 4`, bloco 5 (Collection Runner, IA, vocabulário), o último do módulo. 
 
 **Plano do Módulo 04 (≈5h, 5 blocos):** 1) API, anatomia, métodos · 2) status codes + JWT · 3) Postman: environment, collection, login que salva token · 4) assertions + as 8 requisições · 5) Collection Runner, export, commit, IA e vocabulário
 
@@ -19,7 +19,7 @@
 | 01 | Fundamentos de QA | ✅ |
 | 02 | Ágil, Scrum e o QA na sprint | ✅ |
 | 03 | Jira e Qase na prática | ✅ |
-| 04 | API REST e Postman do zero | 🟨 bloco 4/5 |
+| 04 | API REST e Postman do zero | 🟨 bloco 5/5 |
 | 05 | Técnicas de teste | ⬜ |
 | 06 | Casos de teste e critérios de aceite | ⬜ |
 | 07 | SQL para QA | ⬜ |
@@ -69,6 +69,7 @@ Legenda: ⬜ não iniciado · 🟨 em andamento · ✅ concluído
 | `sprints/sprint-1/entregas/04-postman/01-anatomia.md` | 1 | 2026-09-24 | 1ª rodada: ajustar — Parte B (idempotência) muito boa, com nuance espontânea de DELETE 204→404 e cenário criativo de POST inválido repetido; faltou dizer onde o Swagger indica token, marcar campos obrigatórios, mascarar tokens, e o resultado esperado do cenário copiou a mensagem exata do Zod em vez de derivar do critério de aceite. **2ª rodada (2026-09-25): aceito** — todos os 4 corrigidos; o esperado reescrito ficou melhor que o pedido (checa ausência de token e da senha no body, amarrando ao critério "senha nunca aparece em resposta") |
 | `sprints/sprint-1/entregas/04-postman/02-status-jwt.md` | 1 | 2026-09-29 | 1ª rodada: ajustar — Parte A e fronteiras 401×403 / 400×422 / 409×422 muito boas; achou sozinha a divergência register × critério de aceite da FIN-01. Problemas: esperado da Parte B copiado da execução (ids e timestamps reais) e com fonte declarada diferente da real; cenários pedidos ausentes (e-mail inexistente, register inválido com contagem de `details`, 2 cenários próprios, coluna `code`); previsões de refresh sem fonte e contra o Swagger; ferramenta de decodificação não informada. **2ª rodada (2026-09-29):** os 5 pontos foram corrigidos e o conteúdo está aprovado; falta completar a tabela 4 (dúvidas #2 a #4 citadas mas não escritas). **3ª rodada (2026-09-29): ajustar** — resposta da Renata à #1 registrada na tabela 4 (coluna nova); #2 a #4 seguem sem ser escritas, então a Renata ainda não tem o que responder |
 | `sprints/sprint-1/entregas/04-postman/03-setup-postman.md` + JSONs | 1 | 2026-10-01 | 1ª rodada: ajustar — herança de auth provada pelo Console, experimento do `if` muito bem explicado, register idempotente com `Date.now()` e o 409 verificado de fato. Problemas: `base_url` e `password` exportados vazios, porque o grep tratou qualquer valor como segredo, e a collection não roda para quem importa; cenário 1 marcado como "bateu" só pelo status, sendo que a previsão incluía os dados do usuário (achado #1); senha de teste aparece em texto no próprio md, que diz não ter senha. **2ª rodada (2026-10-01): aceito**, os 3 itens corrigidos, com a tabela segredo × configuração × gerado aplicada e a conclusão de que a collection roda para quem importa sem preencher nada |
+| `sprints/sprint-1/entregas/04-postman/04-assertions.md` + collection | 1 | 2026-10-12 | 1ª rodada: ajustar — 10 requisições, 79 assertions, rodadas no Newman por iniciativa própria; achado #2 com análise excelente (a própria API se contradiz: `total_balance` number × `balance` string); 3 red tests do achado #1 mantidos. Problemas: `password` vazio de novo e requisições de auth voltaram a herdar o token (regressões do bloco 3); faltou a mutação de uma assertion de ausência; assertion no texto exato "Dados inválidos."; tabelas da seção 2 quebradas pelo `|` não escapado; o `unset` no login e o `account_id` no environment contradizem decisões dela mesma no bloco 3, sem justificativa. **2ª rodada (2026-10-12): aceito**, os 5 pontos corrigidos; o `unset` ficou justificado (token antigo mascararia login quebrado no Runner) e o checklist ganhou um `git diff` contra a versão aceita |
 
 ## Decisões da PO (valem como critério até a story ser refinada)
 
@@ -78,6 +79,8 @@ Legenda: ⬜ não iniciado · 🟨 em andamento · ✅ concluído
 | 2026-09-29 | FIN-03 | O refresh token pode ser reutilizado até vencer (7 dias). A rotação a cada uso vai para o backlog. O access token já emitido continua valendo até vencer. |
 | 2026-09-29 | FIN-02 | Login com senha errada e com e-mail inexistente devem ter resposta idêntica (status, `code` e `message`). O 409 do cadastro, que revela e-mail existente, é um risco aceito. |
 | 2026-09-29 | (Sprint 2) contas | `total_balance` soma só as contas ativas e não excluídas. Saldo negativo entra subtraindo. |
+| 2026-10-05 | FIN-02 a FIN-05 | Refinement realizado. Os critérios de aceite agora estão em `stories.md` e já incorporam as decisões acima de FIN-02 e FIN-03; só o que não foi perguntado segue sem critério. |
+| 2026-10-05 | FIN-03 / FIN-04 | Contestada pela QA com argumento de segurança, a Renata passa a achar desejável encerrar as outras sessões ao trocar a senha. Nesta versão continua não encerrando (risco aceito, os testes da sprint esperam isso) e vira story de backlog com prioridade alta, ainda a abrir no Jira. |
 
 ## Achados pendentes de bug report
 
@@ -86,6 +89,7 @@ Legenda: ⬜ não iniciado · 🟨 em andamento · ✅ concluído
 | # | Achado | Onde | Origem | Status |
 | --- | --- | --- | --- | --- |
 | 1 | `POST /auth/register` responde só com os tokens, mas o critério de aceite da FIN-01 pede também os dados do usuário (id, nome, e-mail) | `POST /v1/auth/register` | `02-status-jwt.md`, dúvida para a PO; Renata confirmou em 2026-09-29 que o critério vale | aguardando report |
+| 2 | `balance` das contas vem como string (`"500.00"`), mas o Swagger define `Money` como `number`; no mesmo `GET /accounts`, `total_balance` vem como number | `POST /v1/accounts`, `GET /v1/accounts` | `04-assertions.md`, seção 4 (bloco 4) | aguardando report — o contrato será discutido na triagem |
 
 ## Anotações da retrospectiva
 
